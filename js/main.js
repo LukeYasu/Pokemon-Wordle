@@ -2,7 +2,7 @@
 const $textInput = document.querySelector('.text-input');
 if (!$textInput) throw new Error('$textInput query failed');
 const mysteryPokemon = {};
-let guessPokemon = {};
+const guessPokemon = {};
 const randomNum = Math.random();
 const randomPokeNum = (randomNum * 1000).toFixed(0);
 console.log('pokeNum: ', randomPokeNum);
@@ -23,12 +23,13 @@ async function fetchData(pokemon, pokeId) {
     pokemon.weight = weight;
     pokemon.types = typeNames;
     pokemon.sprites = sprites.front_default;
-    console.log(pokemon);
+    handleRegion(id, pokemon);
     fetchEvoChain(
       `https://pokeapi.co/api/v2/pokemon-species/${id}/`,
       name,
       pokemon,
     );
+    console.log(pokemon);
   } catch (error) {
     console.error('Error: ', error);
   }
@@ -57,7 +58,7 @@ async function fetchEvoStage(evoChainUrl, name, pokemon) {
       speciesData.chain.species.name &&
       speciesData.chain.species.name === name
     ) {
-      const firstStage = speciesData.chain.species.name;
+      // const firstStage = speciesData.chain.species.name;
       stageNum = 1;
       pokemon.stage = stageNum;
       return;
@@ -66,7 +67,7 @@ async function fetchEvoStage(evoChainUrl, name, pokemon) {
       speciesData.chain.evolves_to[0].species.name &&
       speciesData.chain.evolves_to[0].species.name === name
     ) {
-      const secondStage = speciesData.chain.evolves_to[0].species.name;
+      // const secondStage = speciesData.chain.evolves_to[0].species.name;
       stageNum = 2;
       pokemon.stage = stageNum;
       return;
@@ -75,8 +76,8 @@ async function fetchEvoStage(evoChainUrl, name, pokemon) {
       speciesData.chain.evolves_to[0].evolves_to[0].species.name &&
       speciesData.chain.evolves_to[0].evolves_to[0].species.name === name
     ) {
-      const thirdStage =
-        speciesData.chain.evolves_to[0].evolves_to[0].species.name;
+      // const thirdStage =
+      //   speciesData.chain.evolves_to[0].evolves_to[0].species.name;
       stageNum = 3;
       pokemon.stage = stageNum;
       return;
@@ -86,7 +87,7 @@ async function fetchEvoStage(evoChainUrl, name, pokemon) {
     console.error('Error: ', error);
   }
 }
-function handleRegion(num) {
+function handleRegion(num, pokemon) {
   let generation = '';
   if (num >= 1 && num <= 151) {
     generation = 'Gen 1';
@@ -107,7 +108,7 @@ function handleRegion(num) {
   } else if (num >= 906 && num <= 1025) {
     generation = 'Gen 9';
   }
-  mysteryPokemon.generation = generation;
+  pokemon.generation = generation;
 }
 fetchData(mysteryPokemon, randomPokeNum);
 fetchData(guessPokemon, 6);

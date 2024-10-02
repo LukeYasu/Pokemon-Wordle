@@ -71,13 +71,15 @@ async function fetchData(
     pokemon.weight = weight;
     pokemon.types = typeNames;
     pokemon.sprites = sprites.front_default;
-    console.log(pokemon);
+
+    handleRegion(id, pokemon);
     fetchEvoChain(
       `https://pokeapi.co/api/v2/pokemon-species/${id}/`,
       name,
       pokemon,
     );
-    handleRegion(id);
+
+    console.log(pokemon);
   } catch (error) {
     console.error('Error: ', error);
   }
@@ -147,7 +149,7 @@ async function fetchEvoStage(
   }
 }
 
-function handleRegion(num: number): void {
+function handleRegion(num: number, pokemon: GamePokemon): void {
   let generation = '';
   if (num >= 1 && num <= 151) {
     generation = 'Gen 1';
@@ -168,7 +170,7 @@ function handleRegion(num: number): void {
   } else if (num >= 906 && num <= 1025) {
     generation = 'Gen 9';
   }
-  mysteryPokemon.generation = generation;
+  pokemon.generation = generation;
 }
 
 fetchData(mysteryPokemon, randomPokeNum);
