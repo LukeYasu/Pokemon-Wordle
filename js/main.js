@@ -1,60 +1,13 @@
-const $textInput = document.querySelector('.text-input') as HTMLInputElement;
+'use strict';
+const $textInput = document.querySelector('.text-input');
 if (!$textInput) throw new Error('$textInput query failed');
-
-interface PokemonTypes {
-  slot: number;
-  type: { name: string; url: string };
-}
-
-interface PokemonSpecies {
-  evolution_chain: { url: string };
-}
-
-interface PokemonEvoChain {
-  chain: {
-    species: { name: string };
-    evolves_to: [
-      {
-        species: { name: string };
-        evolves_to: [{ species: { name: string } }];
-      },
-    ];
-  };
-}
-
-interface Pokemon {
-  id: number;
-  name: string;
-  height: number;
-  weight: number;
-  types: PokemonTypes[];
-  sprites: {
-    front_default: string;
-  };
-}
-
-interface GamePokemon {
-  name: string;
-  height: number;
-  weight: number;
-  types: string[];
-  generation: string;
-  stage: number;
-  sprites: string;
-}
-
-const mysteryPokemon = {} as GamePokemon;
-const guessPokemon = {} as GamePokemon;
-
+const mysteryPokemon = {};
+let guessPokemon = {};
 const randomNum = Math.random();
 const randomPokeNum = (randomNum * 1000).toFixed(0);
 console.log('pokeNum: ', randomPokeNum);
 // handleRegion(parseInt(randomPokeNum));
-
-async function fetchData(
-  pokemon: GamePokemon,
-  pokeId: number | string,
-): Promise<void> {
+async function fetchData(pokemon, pokeId) {
   try {
     const fetchResponse = await fetch(
       `https://pokeapi.co/api/v2/pokemon/${pokeId}`,
@@ -62,8 +15,7 @@ async function fetchData(
     if (!fetchResponse.ok) {
       throw new Error(`HTTP Error! Status: ${fetchResponse}`);
     }
-
-    const data = (await fetchResponse.json()) as Pokemon;
+    const data = await fetchResponse.json();
     const { id, name, height, weight, types, sprites } = data;
     const typeNames = types.map((typeInfo) => typeInfo.type.name);
     pokemon.name = name;
@@ -77,46 +29,35 @@ async function fetchData(
       name,
       pokemon,
     );
-    handleRegion(id);
   } catch (error) {
     console.error('Error: ', error);
   }
 }
-
-async function fetchEvoChain(
-  evoSpeciesUrl: string,
-  name: string,
-  pokemon: GamePokemon,
-): Promise<void> {
+async function fetchEvoChain(evoSpeciesUrl, name, pokemon) {
   try {
     const chainResponse = await fetch(evoSpeciesUrl);
     if (!chainResponse.ok) {
       throw new Error(`HTTP Error! Status: ${chainResponse}`);
     }
-    const EvoChainData = (await chainResponse.json()) as PokemonSpecies;
+    const EvoChainData = await chainResponse.json();
     fetchEvoStage(EvoChainData.evolution_chain.url, name, pokemon);
   } catch (error) {
     console.error('Error: ', error);
   }
 }
-
-async function fetchEvoStage(
-  evoChainUrl: string,
-  name: string,
-  pokemon: GamePokemon,
-): Promise<void> {
+async function fetchEvoStage(evoChainUrl, name, pokemon) {
   try {
     const chainResponse = await fetch(evoChainUrl);
     if (!chainResponse.ok) {
       throw new Error(`HTTP Error! Status: ${chainResponse}`);
     }
-    const speciesData = (await chainResponse.json()) as PokemonEvoChain;
+    const speciesData = await chainResponse.json();
     let stageNum = 0;
     if (
       speciesData.chain.species.name &&
       speciesData.chain.species.name === name
     ) {
-      // const firstStage = speciesData.chain.species.name;
+      const firstStage = speciesData.chain.species.name;
       stageNum = 1;
       pokemon.stage = stageNum;
       return;
@@ -125,18 +66,17 @@ async function fetchEvoStage(
       speciesData.chain.evolves_to[0].species.name &&
       speciesData.chain.evolves_to[0].species.name === name
     ) {
-      // const secondStage = speciesData.chain.evolves_to[0].species.name;
+      const secondStage = speciesData.chain.evolves_to[0].species.name;
       stageNum = 2;
       pokemon.stage = stageNum;
       return;
     }
-
     if (
       speciesData.chain.evolves_to[0].evolves_to[0].species.name &&
       speciesData.chain.evolves_to[0].evolves_to[0].species.name === name
     ) {
-      // const thirdStage =
-      //   speciesData.chain.evolves_to[0].evolves_to[0].species.name;
+      const thirdStage =
+        speciesData.chain.evolves_to[0].evolves_to[0].species.name;
       stageNum = 3;
       pokemon.stage = stageNum;
       return;
@@ -146,8 +86,7 @@ async function fetchEvoStage(
     console.error('Error: ', error);
   }
 }
-
-function handleRegion(num: number): void {
+function handleRegion(num) {
   let generation = '';
   if (num >= 1 && num <= 151) {
     generation = 'Gen 1';
@@ -170,6 +109,5 @@ function handleRegion(num: number): void {
   }
   mysteryPokemon.generation = generation;
 }
-
 fetchData(mysteryPokemon, randomPokeNum);
 fetchData(guessPokemon, 6);
