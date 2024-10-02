@@ -1,29 +1,24 @@
-header {
+main {
   display: flex;
-  justify-content: center;
-}
-
-body {
-  display: flex;
-  flex-wrap: wrap;
   justify-content: center;
   height: 100vh;
-}
-
-.pokedex-header-img {
-  width: 640px;
 }
 
 .container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-end;
+  flex-direction: column;
   width: 640px;
+  height: 100%;
 }
 
 .header-row {
   display: flex;
   justify-content: center;
+}
+
+.pokedex-header-img {
+  width: 100%;
 }
 
 .row {
@@ -58,25 +53,20 @@ body {
 .attribute-header {
   display: flex;
   justify-content: center;
-  justify-content: space-evenly;
   align-self: center;
 }
 
 .scrollbox {
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
   align-self: center;
 }
 
 .guess-row {
   display: flex;
-  justify-content: space-between;
 }
 
 .footer-row {
-  display: flex;
-  justify-content: center;
   align-self: flex-end;
 }
 
@@ -84,22 +74,20 @@ body {
   width: 640px;
 }
 
-@media screen and (width >= 640px) {
-  .container {
-    width: 1280px;
+/* @media screen and (width >= 640px) {
+  main {
+    width: 1080px;
   }
+}
 
-  .header-img {
+@media screen and (width >= 1080px) {
+  main {
     width: 1280px;
   }
 }
 
-@media screen and (width >=1280) {
-  .container {
-    width: 100vw;
+@media screen and (width >=1280px) {
+  main {
+    width: 2080px;
   }
-
-  .header-img {
-    width: 100vw;
-  }
-}
+} */
