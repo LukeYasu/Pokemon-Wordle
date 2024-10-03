@@ -1,5 +1,7 @@
 const $textInput = document.querySelector('.text-input') as HTMLInputElement;
+const $form = document.querySelector('form') as HTMLFormElement;
 if (!$textInput) throw new Error('$textInput query failed');
+if (!$form) throw new Error('$form query failed');
 
 interface PokemonTypes {
   slot: number;
@@ -41,15 +43,16 @@ interface GamePokemon {
   generation: string;
   stage: number;
   sprites: string;
+  isSolved?: boolean;
 }
 
-const mysteryPokemon = {} as GamePokemon;
+console.log('mysteryPokemon: ', mysteryPokemon);
+
 const guessPokemon = {} as GamePokemon;
+const guesses = [];
 
 const randomNum = Math.random();
 const randomPokeNum = (randomNum * 1000).toFixed(0);
-console.log('pokeNum: ', randomPokeNum);
-// handleRegion(parseInt(randomPokeNum));
 
 async function fetchData(
   pokemon: GamePokemon,
@@ -73,13 +76,12 @@ async function fetchData(
     pokemon.sprites = sprites.front_default;
 
     handleRegion(id, pokemon);
-    fetchEvoChain(
+    await fetchEvoChain(
       `https://pokeapi.co/api/v2/pokemon-species/${id}/`,
       name,
       pokemon,
     );
-
-    console.log(pokemon);
+    mysteryPokemonLocalStorage();
   } catch (error) {
     console.error('Error: ', error);
   }
@@ -173,5 +175,30 @@ function handleRegion(num: number, pokemon: GamePokemon): void {
   pokemon.generation = generation;
 }
 
-fetchData(mysteryPokemon, randomPokeNum);
-fetchData(guessPokemon, 6);
+function mysteryPokemonLocalStorage() {
+  if (!mysteryPokemon.isSolved) {
+    mysteryPokemon.isSolved = false;
+    fetchData(mysteryPokemon, randomPokeNum);
+    writeData(mysteryPokemon);
+    console.log('mysteryPokemon isSolved undefined: ', mysteryPokemon);
+  } else if (mysteryPokemon.isSolved === true) {
+    mysteryPokemon.isSolved = false;
+    fetchData(mysteryPokemon, randomPokeNum);
+    writeData(mysteryPokemon);
+    console.log('mysteryPokemon isSolved true: ', mysteryPokemon);
+  }
+}
+$form.addEventListener('submit', handleSubmit);
+
+function handleSubmit(event: Event): void {
+  event.preventDefault();
+  const guessPokemonText = $textInput.value;
+  $textInput.value = '';
+  fetchData(guessPokemon, guessPokemonText);
+  console.log('guessPokemon: ', guessPokemon);
+}
+
+// document.addEventListener('DOMContentLoaded', () => {
+//   mysteryPokemonLocalStorage();
+// });
+``;
