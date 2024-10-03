@@ -9,8 +9,8 @@ function writeData(Pokemon: GamePokemon): void {
 
 function readData(): GamePokemon {
   const pokemonStorage = localStorage.getItem('pokemon-storage');
-  if (typeof pokemonStorage === typeof '' && pokemonStorage !== null) {
-    console.log('JSON.parse(pokemonStorage)', JSON.parse(pokemonStorage));
+  if (pokemonStorage !== null) {
+    console.log('JSON.parse(pokemonStorage): ', JSON.parse(pokemonStorage));
     return JSON.parse(pokemonStorage);
   } else {
     return {
@@ -18,7 +18,7 @@ function readData(): GamePokemon {
       height: 0,
       weight: 0,
       types: [''],
-      generation: '',
+      generation: 0,
       stage: 0,
       sprites: '',
     };

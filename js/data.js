@@ -7,8 +7,8 @@ function writeData(Pokemon) {
 }
 function readData() {
     const pokemonStorage = localStorage.getItem('pokemon-storage');
-    if (typeof pokemonStorage === typeof '' && pokemonStorage !== null) {
-        console.log('JSON.parse(pokemonStorage)', JSON.parse(pokemonStorage));
+    if (pokemonStorage !== null) {
+        console.log('JSON.parse(pokemonStorage): ', JSON.parse(pokemonStorage));
         return JSON.parse(pokemonStorage);
     }
     else {
@@ -17,7 +17,7 @@ function readData() {
             height: 0,
             weight: 0,
             types: [''],
-            generation: '',
+            generation: 0,
             stage: 0,
             sprites: '',
         };
