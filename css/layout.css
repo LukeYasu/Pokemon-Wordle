@@ -66,6 +66,13 @@ main {
   display: flex;
 }
 
+.guess-square {
+  display: flex;
+  flex-direction: column;
+  width: 80px;
+  height: 80px;
+}
+
 .footer-row {
   align-self: flex-end;
 }
@@ -74,20 +81,22 @@ main {
   width: 640px;
 }
 
-/* @media screen and (width >= 640px) {
-  main {
-    width: 1080px;
-  }
+dialog {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-@media screen and (width >= 1080px) {
-  main {
-    width: 1280px;
-  }
+.close-modal {
+  width: 2rem;
+  height: 2rem;
+  align-self: flex-end;
+  font-size: 1rem;
 }
 
-@media screen and (width >=1280px) {
-  main {
-    width: 2080px;
-  }
-} */
+.modal-sprite-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}

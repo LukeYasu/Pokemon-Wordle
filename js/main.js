@@ -3,6 +3,10 @@ const $textInput = document.querySelector('.text-input');
 const $form = document.querySelector('form');
 const $guessRow = document.querySelector('.guess-row');
 const $scrollbox = document.querySelector('.scrollbox');
+const $winModal = document.querySelector('.win-modal');
+const $modalSprite = document.querySelector('.modal-sprite');
+const $modalName = document.querySelector('.modal-name');
+const $closeModalButton = document.querySelector('.close-modal');
 if (!$textInput)
     throw new Error('$textInput query failed');
 if (!$form)
@@ -11,9 +15,17 @@ if (!$guessRow)
     throw new Error('$guessRow query failed');
 if (!$scrollbox)
     throw new Error('$scrollbox query failed');
+if (!$winModal)
+    throw new Error('$winModal query failed');
+if (!$modalSprite)
+    throw new Error('$modalSprite query failed');
+if (!$modalName)
+    throw new Error('$modalName query failed');
+if (!$closeModalButton)
+    throw new Error('$closeModalButton query failed');
 const guessPokemon = {};
 const guesses = [];
-const guessBGColor = {
+let guessBGColor = {
     pokemonBGColor: '',
     type1BGColor: '',
     type2BGColor: '',
@@ -21,9 +33,6 @@ const guessBGColor = {
     heightBG: '',
     generationBG: '',
     evoStageBG: '',
-};
-const backgrounds = {
-    red: '',
 };
 const randomNum = Math.random();
 const randomPokeNum = (randomNum * 1000).toFixed(0);
@@ -144,84 +153,154 @@ $form.addEventListener('submit', handleSubmit);
 async function handleSubmit(event) {
     event.preventDefault();
     const guessPokemonText = $textInput.value;
-    $textInput.value = '';
+    $form.reset();
     await fetchData(guessPokemon, guessPokemonText);
     console.log('guessPokemon: ', guessPokemon);
     compareAnswer(mysteryPokemon, guessPokemon);
 }
+$winModal.addEventListener('click', (event) => {
+    const eventTarget = event.target;
+    if (eventTarget === $closeModalButton) {
+        $winModal.style.display = 'none';
+        $winModal.close();
+    }
+});
 document.addEventListener('DOMContentLoaded', () => {
+    $winModal.style.display = 'none';
     if (mysteryPokemon.isSolved === undefined) {
         fetchData(mysteryPokemon, randomPokeNum);
     }
 });
 function compareAnswer(mysteryPokemon, guessPokemon) {
     if (guessPokemon.name === mysteryPokemon.name) {
-        guessBGColor.pokemonBGColor = 'green';
+        guessBGColor.pokemonBGColor = '#02D000';
     }
     else {
-        guessBGColor.pokemonBGColor = 'red';
+        guessBGColor.pokemonBGColor = '#E90D06';
     }
     if ((guessPokemon.types[0] &&
         guessPokemon.types[0] === mysteryPokemon.types[0]) ||
         guessPokemon.types[0] === mysteryPokemon.types[1]) {
-        guessBGColor.type1BGColor = 'green';
+        guessBGColor.type1BGColor = 'url("http://localhost:5500/images/green.png")';
     }
     else {
-        guessBGColor.type1BGColor = 'red';
+        guessBGColor.type1BGColor = 'url("http://localhost:5500/images/red.png")';
     }
     if ((guessPokemon.types[1] &&
         guessPokemon.types[1] === mysteryPokemon.types[0]) ||
         guessPokemon.types[1] === mysteryPokemon.types[1]) {
-        guessBGColor.type2BGColor = 'green';
+        guessBGColor.type2BGColor = 'url("http://localhost:5500/images/green.png")';
     }
     else {
-        guessBGColor.type2BGColor = 'red';
+        guessBGColor.type2BGColor = 'url("http://localhost:5500/images/red.png")';
     }
     if (guessPokemon.weight === mysteryPokemon.weight) {
-        guessBGColor.weightBG = 'green';
+        guessBGColor.weightBG = 'url("http://localhost:5500/images/green.png")';
     }
     else if (guessPokemon.weight > mysteryPokemon.weight) {
-        guessBGColor.weightBG = 'redDown';
+        guessBGColor.weightBG = 'url("http://localhost:5500/images/red-down.png")';
     }
     else if (guessPokemon.weight < mysteryPokemon.weight) {
-        guessBGColor.weightBG = 'redUp';
+        guessBGColor.weightBG = 'url("http://localhost:5500/images/red-up.png")';
     }
     if (guessPokemon.height === mysteryPokemon.height) {
-        guessBGColor.heightBG = 'green';
+        guessBGColor.heightBG = 'url("http://localhost:5500/images/green.png")';
     }
     else if (guessPokemon.height > mysteryPokemon.height) {
-        guessBGColor.heightBG = 'redDown';
+        guessBGColor.heightBG = 'url("http://localhost:5500/images/red-down.png")';
     }
     else if (guessPokemon.height < mysteryPokemon.height) {
-        guessBGColor.heightBG = 'redUp';
+        guessBGColor.heightBG = 'url("http://localhost:5500/images/red-up.png")';
     }
     if (guessPokemon.generation === mysteryPokemon.generation) {
-        guessBGColor.generationBG = 'green';
+        guessBGColor.generationBG = 'url("http://localhost:5500/images/green.png")';
     }
     else if (guessPokemon.generation > mysteryPokemon.generation) {
-        guessBGColor.generationBG = 'redDown';
+        guessBGColor.generationBG =
+            'url("http://localhost:5500/images/red-down.png")';
     }
     else if (guessPokemon.generation < mysteryPokemon.generation) {
-        guessBGColor.generationBG = 'redUp';
+        guessBGColor.generationBG =
+            'url("http://localhost:5500/images/red-up.png")';
     }
     if (guessPokemon.stage === mysteryPokemon.stage) {
-        guessBGColor.evoStageBG = 'green';
+        guessBGColor.evoStageBG = 'url("http://localhost:5500/images/green.png")';
     }
     else if (guessPokemon.stage > mysteryPokemon.stage) {
-        guessBGColor.evoStageBG = 'redDown';
+        guessBGColor.evoStageBG =
+            'url("http://localhost:5500/images/red-down.png")';
     }
     else if (guessPokemon.stage < mysteryPokemon.stage) {
-        guessBGColor.evoStageBG = 'redUp';
+        guessBGColor.evoStageBG = 'url("http://localhost:5500/images/red-up.png")';
     }
-    console.log('guessBGColor', guessBGColor);
+    renderGuess(guessPokemon);
+    winModal(guessBGColor.pokemonBGColor);
 }
-function renderGuess() {
+function renderGuess(pokemon) {
     const $divGuessRow = document.createElement('div');
     $divGuessRow.setAttribute('class', 'row guess-row');
     const $divGuessName = document.createElement('div');
-    $divGuessName.textContent = 'eiuqeuqoieuqoequowiqu';
-    $divGuessRow.append($scrollbox);
-    $divGuessName.append($divGuessRow);
+    $divGuessName.setAttribute('class', 'guess-name');
+    $divGuessName.textContent = pokemon.name;
+    const $divGuessSprite = document.createElement('div');
+    $divGuessSprite.setAttribute('class', 'guess-square sprite');
+    $divGuessSprite.style.backgroundColor = guessBGColor.pokemonBGColor;
+    $divGuessSprite.style.backgroundImage = `url("${guessPokemon.sprites}")`;
+    const $divGuessSquareTypes = document.createElement('div');
+    $divGuessSquareTypes.setAttribute('class', 'guess-square types');
+    const $divType1 = document.createElement('div');
+    $divType1.setAttribute('class', 'type1');
+    $divType1.setAttribute('style', `background-image: ${guessBGColor.type1BGColor}`);
+    $divType1.textContent = pokemon.types[0];
+    // for(let i = 0; i < guessPokemon.types.length; i++){
+    // if(guessPokemon.types[i] === 'electric'|| guessPokemon.types[i] === 'fighting'){
+    //   $divType1.style.letterSpacing = '-1.1px'
+    // }
+    const $divType2 = document.createElement('div');
+    $divType2.setAttribute('class', 'type2');
+    $divType2.setAttribute('style', `background-image: ${guessBGColor.type2BGColor}`);
+    $divType2.textContent = pokemon.types[1];
+    //   for(let i = 0; i < guessPokemon.types.length; i++){
+    //   if(guessPokemon.types[i] === 'electric' || guessPokemon.types[i] === 'fighting'){
+    //     $divType2.style.letterSpacing = '-1.1px'
+    //   }
+    // }
+    const $divGuessSquareWeight = document.createElement('div');
+    $divGuessSquareWeight.setAttribute('class', 'guess-square weight');
+    $divGuessSquareWeight.setAttribute('style', `background-image: ${guessBGColor.weightBG}`);
+    $divGuessSquareWeight.textContent = `${(pokemon.weight * 0.1).toFixed(1)} kg`;
+    const $divGuessSquareHeight = document.createElement('div');
+    $divGuessSquareHeight.setAttribute('class', 'guess-square height');
+    $divGuessSquareHeight.setAttribute('style', `background-image: ${guessBGColor.heightBG}`);
+    $divGuessSquareHeight.textContent = `${(pokemon.height * 0.1).toFixed(2)} meters`;
+    const $divGuessSquareGen = document.createElement('div');
+    $divGuessSquareGen.setAttribute('class', 'guess-square gen');
+    $divGuessSquareGen.setAttribute('style', `background-image: ${guessBGColor.generationBG}`);
+    $divGuessSquareGen.textContent = `Gen ${pokemon.generation}`;
+    const $divGuessSquareStage = document.createElement('div');
+    $divGuessSquareStage.setAttribute('class', 'guess-square stage');
+    $divGuessSquareStage.setAttribute('style', `background-image: ${guessBGColor.evoStageBG}`);
+    $divGuessSquareStage.textContent = `Stage ${pokemon.stage}`;
+    $scrollbox.prepend($divGuessRow);
+    $divGuessRow.append($divGuessName);
+    $divGuessRow.append($divGuessSprite);
+    $divGuessRow.append($divGuessSquareTypes);
+    $divGuessSquareTypes.append($divType1);
+    $divGuessSquareTypes.append($divType2);
+    $divGuessRow.append($divGuessSquareWeight);
+    $divGuessRow.append($divGuessSquareHeight);
+    $divGuessRow.append($divGuessSquareGen);
+    $divGuessRow.append($divGuessSquareStage);
     return $divGuessRow;
 }
-renderGuess();
+function renderModal() {
+    $modalSprite.src = mysteryPokemon.sprites;
+    $modalName.textContent = mysteryPokemon.name;
+}
+function winModal(winColor) {
+    if (winColor === '#02D000') {
+        $winModal.style.display = '';
+        renderModal();
+        $winModal.showModal();
+    }
+}

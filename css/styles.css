@@ -61,14 +61,14 @@ input {
 }
 
 .guess-square {
-  width: 80px;
-  height: 80px;
   text-align: center;
   line-height: 35px;
   border: #d9d9d9 solid 5px;
   border-radius: 5px;
-  color: white;
+  color: black;
   margin: 5px;
+  background-position: center;
+  background-size: cover;
 }
 
 .guess-name {
@@ -81,37 +81,57 @@ input {
 }
 
 .sprite {
-  background-position: center;
-  background-size: cover;
   border-radius: 5px;
 }
 
-.type1 {
-  background-color: green;
+dialog {
+  background-color: #dc082d;
+  border: none;
+  border-radius: 20px;
+  /* display: none; */
 }
 
-.type2 {
-  background-color: red;
+.modal-title {
+  font-size: 1.2rem;
+  margin: 10px;
+  color: white;
+  font-weight: 500;
 }
 
-.weight {
-  background-image: url('http://localhost:5500/images/red-down.png');
-  background-position: center;
-  background-size: cover;
+.modal-sprite-container {
+  background-color: white;
+  width: 200px;
+  border-radius: 20px;
+  padding-bottom: 15px;
 }
 
-.height {
-  background-image: url('http://localhost:5500/images/red-down.png');
-  background-position: center;
-  background-size: cover;
+.modal-sprite {
+  width: 200px;
 }
 
-.gen {
-  background-color: green;
+.modal-name {
+  border-radius: 20px;
+  color: black;
+  background-color: #d4d4d4;
+  width: 170px;
+  height: 40px;
+  line-height: 40px;
 }
 
-.stage {
-  background-image: url('http://localhost:5500/images/red-down.png');
-  background-position: center;
-  background-size: cover;
+.modal-play-again {
+  margin: 10px;
+  height: 50px;
+  width: 100px;
+  background-color: #03b403;
+  border: 1px solid #037b03;
+  border-radius: 10px;
+}
+
+.button:hover {
+  cursor: pointer;
+}
+
+dialog::backdrop {
+  background-color: black;
+  opacity: 50%;
 }
