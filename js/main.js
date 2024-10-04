@@ -24,7 +24,6 @@ if (!$modalName)
 if (!$closeModalButton)
     throw new Error('$closeModalButton query failed');
 const guessPokemon = {};
-const guesses = [];
 let guessBGColor = {
     pokemonBGColor: '',
     type1BGColor: '',

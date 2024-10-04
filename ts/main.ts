@@ -72,7 +72,6 @@ interface GuessBGColor {
 }
 
 const guessPokemon = {} as GamePokemon;
-const guesses = [];
 let guessBGColor: GuessBGColor = {
   pokemonBGColor: '',
   type1BGColor: '',
@@ -205,7 +204,7 @@ function handleRegion(num: number, pokemon: GamePokemon): void {
   pokemon.generation = generation;
 }
 
-function mysteryPokemonLocalStorage() {
+function mysteryPokemonLocalStorage(): void {
   if (!mysteryPokemon.isSolved) {
     mysteryPokemon.isSolved = false;
     writeData(mysteryPokemon);
@@ -242,7 +241,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-function compareAnswer(mysteryPokemon: GamePokemon, guessPokemon: GamePokemon) {
+function compareAnswer(
+  mysteryPokemon: GamePokemon,
+  guessPokemon: GamePokemon,
+): void {
   if (guessPokemon.name === mysteryPokemon.name) {
     guessBGColor.pokemonBGColor = '#02D000';
   } else {
@@ -378,7 +380,7 @@ function renderGuess(pokemon: GamePokemon): HTMLElement {
   return $divGuessRow;
 }
 
-function renderModal() {
+function renderModal(): void {
   $modalSprite.src = mysteryPokemon.sprites;
   $modalName.textContent = mysteryPokemon.name;
 }
