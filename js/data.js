@@ -17,7 +17,7 @@ function readData() {
             height: 0,
             weight: 0,
             types: [''],
-            generation: 0,
+            generation: '',
             stage: 0,
             sprites: '',
         };

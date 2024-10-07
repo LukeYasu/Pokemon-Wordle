@@ -1,4 +1,4 @@
-/* exported data, writeData, readData */
+/* exported mysteryPokemon, writeData, readData */
 
 let mysteryPokemon: GamePokemon = readData();
 
@@ -18,7 +18,7 @@ function readData(): GamePokemon {
       height: 0,
       weight: 0,
       types: [''],
-      generation: 0,
+      generation: '',
       stage: 0,
       sprites: '',
     };
