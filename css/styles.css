@@ -1,3 +1,7 @@
+.hidden {
+  display: none !important;
+}
+
 main {
   background-color: #dc082d;
 }
@@ -77,6 +81,30 @@ input {
   writing-mode: vertical-lr;
   transform: rotate(180deg);
   position: relative;
+}
+
+.large-text-type {
+  letter-spacing: -1.1px;
+}
+
+.guess-sprite {
+  background-image: url('images/red.png');
+}
+
+.green-background {
+  background-color: #02d000;
+}
+
+.red-background {
+  background-color: #e90d06;
+}
+
+.red-down-background {
+  background-image: url('/images/red-down.png');
+}
+
+.red-up-background {
+  background-image: url('/images/red-up.png');
 }
 
 dialog {

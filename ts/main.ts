@@ -79,7 +79,7 @@ interface GuessBGColor {
 }
 
 const guessPokemon = {} as GamePokemon;
-let guessBGColor: GuessBGColor = {
+const guessBGColor: GuessBGColor = {
   pokemonBGColor: '',
   type1BGColor: '',
   type2BGColor: '',
@@ -95,8 +95,7 @@ const randomPokeNum = (randomNum * 1000).toFixed(0);
 $winModal.addEventListener('click', (event: Event) => {
   const eventTarget = event.target;
   if (eventTarget === $closeModalButton) {
-    $winModal.style.display = 'none';
-    $winModal.close();
+    $winModal.setAttribute('class', 'hidden win-modal');
   }
 });
 
@@ -108,7 +107,7 @@ $winModal.addEventListener('click', (event: Event) => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-  $winModal.style.display = 'none';
+  $winModal.setAttribute('class', 'hidden win-modal');
   if (mysteryPokemon.isSolved === undefined) {
     fetchData(mysteryPokemon, randomPokeNum);
   }
@@ -272,58 +271,55 @@ function compareAnswer(
   guessPokemon: GamePokemon,
 ): void {
   if (guessPokemon.name === mysteryPokemon.name) {
-    guessBGColor.pokemonBGColor = '#02D000';
+    guessBGColor.pokemonBGColor = 'green-background';
   } else {
-    guessBGColor.pokemonBGColor = '#E90D06';
+    guessBGColor.pokemonBGColor = 'red-background';
   }
   if (
     (guessPokemon.types[0] &&
       guessPokemon.types[0] === mysteryPokemon.types[0]) ||
     guessPokemon.types[0] === mysteryPokemon.types[1]
   ) {
-    guessBGColor.type1BGColor = 'url("http://localhost:5500/images/green.png")';
+    guessBGColor.type1BGColor = 'green-background';
   } else {
-    guessBGColor.type1BGColor = 'url("http://localhost:5500/images/red.png")';
+    guessBGColor.type1BGColor = 'red-background';
   }
   if (
     (guessPokemon.types[1] &&
       guessPokemon.types[1] === mysteryPokemon.types[0]) ||
     guessPokemon.types[1] === mysteryPokemon.types[1]
   ) {
-    guessBGColor.type2BGColor = 'url("http://localhost:5500/images/green.png")';
+    guessBGColor.type2BGColor = 'green-background';
   } else {
-    guessBGColor.type2BGColor = 'url("http://localhost:5500/images/red.png")';
+    guessBGColor.type2BGColor = 'red-background';
   }
   if (guessPokemon.weight === mysteryPokemon.weight) {
-    guessBGColor.weightBG = 'url("http://localhost:5500/images/green.png")';
+    guessBGColor.weightBG = 'green-background';
   } else if (guessPokemon.weight > mysteryPokemon.weight) {
-    guessBGColor.weightBG = 'url("http://localhost:5500/images/red-down.png")';
+    guessBGColor.weightBG = 'red-down-background';
   } else if (guessPokemon.weight < mysteryPokemon.weight) {
-    guessBGColor.weightBG = 'url("http://localhost:5500/images/red-up.png")';
+    guessBGColor.weightBG = 'red-up-background';
   }
   if (guessPokemon.height === mysteryPokemon.height) {
-    guessBGColor.heightBG = 'url("http://localhost:5500/images/green.png")';
+    guessBGColor.heightBG = 'green-background';
   } else if (guessPokemon.height > mysteryPokemon.height) {
-    guessBGColor.heightBG = 'url("http://localhost:5500/images/red-down.png")';
+    guessBGColor.heightBG = 'red-down-background';
   } else if (guessPokemon.height < mysteryPokemon.height) {
-    guessBGColor.heightBG = 'url("http://localhost:5500/images/red-up.png")';
+    guessBGColor.heightBG = 'red-up-background';
   }
   if (guessPokemon.generation === mysteryPokemon.generation) {
-    guessBGColor.generationBG = 'url("http://localhost:5500/images/green.png")';
+    guessBGColor.generationBG = 'green-background';
   } else if (guessPokemon.generation[0] > mysteryPokemon.generation[0]) {
-    guessBGColor.generationBG =
-      'url("http://localhost:5500/images/red-down.png")';
+    guessBGColor.generationBG = 'red-down-background';
   } else if (guessPokemon.generation[0] < mysteryPokemon.generation[0]) {
-    guessBGColor.generationBG =
-      'url("http://localhost:5500/images/red-up.png")';
+    guessBGColor.generationBG = 'red-up-background';
   }
   if (guessPokemon.stage === mysteryPokemon.stage) {
-    guessBGColor.evoStageBG = 'url("http://localhost:5500/images/green.png")';
+    guessBGColor.evoStageBG = 'green-background';
   } else if (guessPokemon.stage > mysteryPokemon.stage) {
-    guessBGColor.evoStageBG =
-      'url("http://localhost:5500/images/red-down.png")';
+    guessBGColor.evoStageBG = 'red-down-background';
   } else if (guessPokemon.stage < mysteryPokemon.stage) {
-    guessBGColor.evoStageBG = 'url("http://localhost:5500/images/red-up.png")';
+    guessBGColor.evoStageBG = 'red-up-background';
   }
   renderGuess(guessPokemon);
   winModal(guessBGColor.pokemonBGColor);
@@ -336,75 +332,67 @@ function renderGuess(pokemon: GamePokemon): HTMLDivElement {
   $divGuessName.setAttribute('class', 'guess-name');
   $divGuessName.textContent = pokemon.name;
   const $divGuessSprite = document.createElement('div');
-  $divGuessSprite.setAttribute('class', 'guess-square sprite');
-  $divGuessSprite.style.backgroundColor = guessBGColor.pokemonBGColor;
+  $divGuessSprite.setAttribute(
+    'class',
+    `guess-square sprite ${guessBGColor.pokemonBGColor}`,
+  );
   $divGuessSprite.style.backgroundImage = `url("${guessPokemon.sprites}")`;
   const $divGuessSquareTypes = document.createElement('div');
   $divGuessSquareTypes.setAttribute('class', 'guess-square types');
   const $divType1 = document.createElement('div');
-  $divType1.setAttribute('class', 'type1');
-  $divType1.setAttribute(
-    'style',
-    `background-image: ${guessBGColor.type1BGColor}`,
-  );
+  $divType1.setAttribute('class', `type1 ${guessBGColor.type1BGColor}`);
   $divType1.textContent = pokemon.types[0];
-  for (let i = 0; i < guessPokemon.types.length; i++) {
-    if (guessPokemon.types[i].length > 7) {
-      $divType1.style.letterSpacing = '-1.1px';
-    }
-    const $divType2 = document.createElement('div');
-    $divType2.setAttribute('class', 'type2');
-    $divType2.setAttribute(
-      'style',
-      `background-image: ${guessBGColor.type2BGColor}`,
+  if (guessPokemon.types[0].length > 7) {
+    $divType1.setAttribute(
+      'class',
+      `large-text-type type1 ${guessBGColor.type1BGColor}`,
     );
-    $divType2.textContent = pokemon.types[1];
-    for (let i = 0; i < guessPokemon.types.length; i++) {
-      if (guessPokemon.types[i].length > 7) {
-        $divType2.style.letterSpacing = '-1.1px';
-      }
-    }
-    const $divGuessSquareWeight = document.createElement('div');
-    $divGuessSquareWeight.setAttribute('class', 'guess-square weight');
-    $divGuessSquareWeight.setAttribute(
-      'style',
-      `background-image: ${guessBGColor.weightBG}`,
-    );
-    $divGuessSquareWeight.textContent = `${(pokemon.weight * 0.1).toFixed(1)} kg`;
-    const $divGuessSquareHeight = document.createElement('div');
-    $divGuessSquareHeight.setAttribute('class', 'guess-square height');
-    $divGuessSquareHeight.setAttribute(
-      'style',
-      `background-image: ${guessBGColor.heightBG}`,
-    );
-    $divGuessSquareHeight.textContent = `${(pokemon.height * 0.1).toFixed(2)} meters`;
-    const $divGuessSquareGen = document.createElement('div');
-    $divGuessSquareGen.setAttribute('class', 'guess-square gen');
-    $divGuessSquareGen.setAttribute(
-      'style',
-      `background-image: ${guessBGColor.generationBG}`,
-    );
-    $divGuessSquareGen.textContent = `Gen ${pokemon.generation}`;
-    const $divGuessSquareStage = document.createElement('div');
-    $divGuessSquareStage.setAttribute('class', 'guess-square stage');
-    $divGuessSquareStage.setAttribute(
-      'style',
-      `background-image: ${guessBGColor.evoStageBG}`,
-    );
-    $divGuessSquareStage.textContent = `Stage ${pokemon.stage}`;
-
-    $scrollbox.prepend($divGuessRow);
-    $divGuessRow.append($divGuessName);
-    $divGuessRow.append($divGuessSprite);
-    $divGuessRow.append($divGuessSquareTypes);
-    $divGuessSquareTypes.append($divType1);
-    $divGuessSquareTypes.append($divType2);
-    $divGuessRow.append($divGuessSquareWeight);
-    $divGuessRow.append($divGuessSquareHeight);
-    $divGuessRow.append($divGuessSquareGen);
-    $divGuessRow.append($divGuessSquareStage);
-    return $divGuessRow;
   }
+  const $divType2 = document.createElement('div');
+  $divType2.setAttribute('class', `type2 ${guessBGColor.type2BGColor}`);
+  $divType2.textContent = pokemon.types[1];
+  if (guessPokemon.types[1].length > 7) {
+    $divType2.setAttribute(
+      'class',
+      `large-text-type type2 ${guessBGColor.type2BGColor}`,
+    );
+  }
+
+  const $divGuessSquareWeight = document.createElement('div');
+  $divGuessSquareWeight.setAttribute(
+    'class',
+    `guess-square weight ${guessBGColor.weightBG}`,
+  );
+  $divGuessSquareWeight.textContent = `${(pokemon.weight * 0.1).toFixed(1)} kg`;
+  const $divGuessSquareHeight = document.createElement('div');
+  $divGuessSquareHeight.setAttribute(
+    'class',
+    `guess-square height ${guessBGColor.heightBG}`,
+  );
+  $divGuessSquareHeight.textContent = `${(pokemon.height * 0.1).toFixed(2)} meters`;
+  const $divGuessSquareGen = document.createElement('div');
+  $divGuessSquareGen.setAttribute(
+    'class',
+    `guess-square gen ${guessBGColor.generationBG}`,
+  );
+  $divGuessSquareGen.textContent = `Gen ${pokemon.generation}`;
+  const $divGuessSquareStage = document.createElement('div');
+  $divGuessSquareStage.setAttribute(
+    'class',
+    `guess-square stage ${guessBGColor.evoStageBG}`,
+  );
+  $divGuessSquareStage.textContent = `Stage ${pokemon.stage}`;
+
+  $scrollbox.prepend($divGuessRow);
+  $divGuessRow.append($divGuessName);
+  $divGuessRow.append($divGuessSprite);
+  $divGuessRow.append($divGuessSquareTypes);
+  $divGuessSquareTypes.append($divType1);
+  $divGuessSquareTypes.append($divType2);
+  $divGuessRow.append($divGuessSquareWeight);
+  $divGuessRow.append($divGuessSquareHeight);
+  $divGuessRow.append($divGuessSquareGen);
+  $divGuessRow.append($divGuessSquareStage);
   return $divGuessRow;
 }
 
@@ -414,9 +402,9 @@ function renderModal(): void {
 }
 
 function winModal(winColor: string): void {
-  if (winColor === '#02D000') {
+  if (winColor === 'green-background') {
     renderModal();
-    $winModal.style.display = '';
+    $winModal.setAttribute('class', 'win-modal');
     $winModal.showModal();
     mysteryPokemon.isSolved = true;
     fetchData(mysteryPokemon, randomPokeNum);

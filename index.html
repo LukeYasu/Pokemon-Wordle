@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AJAX Project</title>
+    <title>Pokémondle</title>
     <link rel="icon" href="images/favicon.ico" />
     <link rel="stylesheet" href="css/reset.css" />
     <link rel="stylesheet" href="css/layout.css" />
@@ -19,7 +19,10 @@
       <div class="container">
         <div class="row header-row">
           <div class="header-img">
-            <img class="pokedex-header-img" src="images/pokedex-header.png" />
+            <img
+              class="pokedex-header-img"
+              src="images/pokedex-header.png"
+              alt="header image with pokedex styling" />
           </div>
         </div>
         <div class="row">
@@ -42,36 +45,23 @@
                 <div class="col-one-sixth">Evo Stage</div>
               </div>
               <div class="scrollbox">
-                <div class="row guess-row">
-                  <!-- <div class="guess-name">charizard</div>
-                  <div
-                    class="guess-square sprite"
-                    style="
-                      background-color: red;
-                      background-image: url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png');
-                    "></div>
-                  <div class="guess-square types">
-                    <div class="type1">flying</div>
-                    <div class="type2">fire</div>
-                  </div>
-                  <div class="guess-square weight">90.5 kg</div>
-                  <div class="guess-square height">1.7 meters</div>
-                  <div class="guess-square gen">Gen 1</div>
-                  <div class="guess-square stage">stage 3</div> -->
-                </div>
+                <div class="row guess-row"></div>
               </div>
             </div>
           </div>
         </div>
         <div class="row footer-row">
-          <img class="footer-img" src="images/pokedex-footer2.png" />
+          <img
+            class="footer-img"
+            src="images/pokedex-footer2.png"
+            alt="footer image with pokedex styling" />
         </div>
         <dialog class="win-modal">
           <button class="close-modal button">x</button>
           <div class="modal-title">You have guessed the Pokémon!</div>
           <div class="modal-sprite-container">
             <img class="modal-sprite" src="" />
-            <div class="modal-name">modalname</div>
+            <div class="modal-name"></div>
           </div>
           <button class="modal-play-again button">Play Again</button>
         </dialog>
