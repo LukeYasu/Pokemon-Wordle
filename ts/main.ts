@@ -1,4 +1,4 @@
-/* global mysteryPokemon writeData */
+/* global mysteryPokemon, writeData */
 const $textInput = document.querySelector('.text-input') as HTMLInputElement;
 const $form = document.querySelector('form') as HTMLFormElement;
 const $guessRow = document.querySelector('.guess-row') as HTMLDivElement;
@@ -120,7 +120,6 @@ async function handleSubmit(event: Event): Promise<void> {
 
   const guessPokemonText = $textInput.value;
   const fetchSuccess = await fetchData(guessPokemon, guessPokemonText);
-  console.log('fetchSuccess: ', fetchSuccess);
   $textInput.placeholder = '';
   if (fetchSuccess === false) {
     $textInput.placeholder = ' Enter Valid Pokemon';
@@ -129,7 +128,6 @@ async function handleSubmit(event: Event): Promise<void> {
   }
   $form.reset();
 
-  console.log('guessPokemon: ', guessPokemon);
   compareAnswer(mysteryPokemon, guessPokemon);
   winModal(guessBGColor.pokemonBGColor);
 }
@@ -163,7 +161,6 @@ async function fetchData(
       name,
       pokemon,
     );
-    console.log('data: ', data);
     mysteryPokemonLocalStorage();
     return true;
   } catch (error) {
@@ -205,7 +202,6 @@ async function fetchEvoStage(
       speciesData.chain.species.name &&
       speciesData.chain.species.name === name
     ) {
-      // const firstStage = speciesData.chain.species.name;
       stageNum = 1;
       pokemon.stage = stageNum;
     }
@@ -213,7 +209,6 @@ async function fetchEvoStage(
       speciesData.chain.evolves_to[0].species.name &&
       speciesData.chain.evolves_to[0].species.name === name
     ) {
-      // const secondStage = speciesData.chain.evolves_to[0].species.name;
       stageNum = 2;
       pokemon.stage = stageNum;
     }
@@ -222,8 +217,6 @@ async function fetchEvoStage(
       speciesData.chain.evolves_to[0].evolves_to[0].species.name &&
       speciesData.chain.evolves_to[0].evolves_to[0].species.name === name
     ) {
-      // const thirdStage =
-      //   speciesData.chain.evolves_to[0].evolves_to[0].species.name;
       stageNum = 3;
       pokemon.stage = stageNum;
     }

@@ -1,5 +1,5 @@
 'use strict';
-/* global mysteryPokemon writeData */
+/* global mysteryPokemon, writeData */
 const $textInput = document.querySelector('.text-input');
 const $form = document.querySelector('form');
 const $guessRow = document.querySelector('.guess-row');
@@ -21,7 +21,7 @@ if (!$closeModalButton) throw new Error('$closeModalButton query failed');
 if (!$modalPlayAgain) throw new Error('$modalPlayAgain query failed');
 if (!$gameContent) throw new Error('$gameContent query selector failed');
 const guessPokemon = {};
-let guessBGColor = {
+const guessBGColor = {
   pokemonBGColor: '',
   type1BGColor: '',
   type2BGColor: '',
@@ -55,7 +55,6 @@ async function handleSubmit(event) {
   event.preventDefault();
   const guessPokemonText = $textInput.value;
   const fetchSuccess = await fetchData(guessPokemon, guessPokemonText);
-  console.log('fetchSuccess: ', fetchSuccess);
   $textInput.placeholder = '';
   if (fetchSuccess === false) {
     $textInput.placeholder = ' Enter Valid Pokemon';
@@ -63,7 +62,6 @@ async function handleSubmit(event) {
     return;
   }
   $form.reset();
-  console.log('guessPokemon: ', guessPokemon);
   compareAnswer(mysteryPokemon, guessPokemon);
   winModal(guessBGColor.pokemonBGColor);
 }
@@ -92,7 +90,6 @@ async function fetchData(pokemon, pokeId) {
       name,
       pokemon,
     );
-    console.log('data: ', data);
     mysteryPokemonLocalStorage();
     return true;
   } catch (error) {
@@ -124,7 +121,6 @@ async function fetchEvoStage(evoChainUrl, name, pokemon) {
       speciesData.chain.species.name &&
       speciesData.chain.species.name === name
     ) {
-      // const firstStage = speciesData.chain.species.name;
       stageNum = 1;
       pokemon.stage = stageNum;
     }
@@ -132,7 +128,6 @@ async function fetchEvoStage(evoChainUrl, name, pokemon) {
       speciesData.chain.evolves_to[0].species.name &&
       speciesData.chain.evolves_to[0].species.name === name
     ) {
-      // const secondStage = speciesData.chain.evolves_to[0].species.name;
       stageNum = 2;
       pokemon.stage = stageNum;
     }
@@ -140,8 +135,6 @@ async function fetchEvoStage(evoChainUrl, name, pokemon) {
       speciesData.chain.evolves_to[0].evolves_to[0].species.name &&
       speciesData.chain.evolves_to[0].evolves_to[0].species.name === name
     ) {
-      // const thirdStage =
-      //   speciesData.chain.evolves_to[0].evolves_to[0].species.name;
       stageNum = 3;
       pokemon.stage = stageNum;
     }

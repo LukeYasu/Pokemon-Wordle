@@ -1,6 +1,6 @@
 /* exported mysteryPokemon, writeData, readData */
 
-let mysteryPokemon: GamePokemon = readData();
+const mysteryPokemon: GamePokemon = readData();
 
 function writeData(Pokemon: GamePokemon): void {
   const dataJSON = JSON.stringify(Pokemon);
@@ -10,7 +10,6 @@ function writeData(Pokemon: GamePokemon): void {
 function readData(): GamePokemon {
   const pokemonStorage = localStorage.getItem('pokemon-storage');
   if (pokemonStorage !== null) {
-    console.log('JSON.parse(pokemonStorage): ', JSON.parse(pokemonStorage));
     return JSON.parse(pokemonStorage);
   } else {
     return {

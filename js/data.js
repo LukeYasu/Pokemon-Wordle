@@ -8,7 +8,6 @@ function writeData(Pokemon) {
 function readData() {
   const pokemonStorage = localStorage.getItem('pokemon-storage');
   if (pokemonStorage !== null) {
-    console.log('JSON.parse(pokemonStorage): ', JSON.parse(pokemonStorage));
     return JSON.parse(pokemonStorage);
   } else {
     return {
