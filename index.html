@@ -1,20 +1,73 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AJAX Project</title>
-  <link rel="icon" href="images/favicon.ico">
-  <link rel="stylesheet" href="css/reset.css">
-  <link rel="stylesheet" href="css/layout.css">
-  <link rel="stylesheet" href="css/styles.css">
-</head>
-<body>
-  <header>
-  </header>
-  <main>
-  </main>
-  <script src="js/data.js"></script>
-  <script src="js/main.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pokémondle</title>
+    <link rel="icon" href="images/favicon.ico" />
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+      rel="stylesheet" />
+  </head>
+  <body>
+    <main>
+      <div class="container">
+        <div class="row header-row">
+          <div class="header-img">
+            <img
+              class="pokedex-header-img"
+              src="images/pokedex-header.png"
+              alt="header image with pokedex styling" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-full input-text-button">
+            <form>
+              <input class="text-input" type="text" required />
+              <input class="enter-button" type="submit" value="Enter" />
+            </form>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-full game-content">
+            <div class="game-box">
+              <div class="attribute-header col-full">
+                <div class="col-one-sixth">Pokémon</div>
+                <div class="col-one-sixth">Types</div>
+                <div class="col-one-sixth">Weight</div>
+                <div class="col-one-sixth">Height</div>
+                <div class="col-one-sixth">Generation</div>
+                <div class="col-one-sixth">Evo Stage</div>
+              </div>
+              <div class="scrollbox">
+                <div class="row guess-row"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row footer-row">
+          <img
+            class="footer-img"
+            src="images/pokedex-footer2.png"
+            alt="footer image with pokedex styling" />
+        </div>
+        <dialog class="win-modal">
+          <button class="close-modal button">x</button>
+          <div class="modal-title">You have guessed the Pokémon!</div>
+          <div class="modal-sprite-container">
+            <img class="modal-sprite" src="" />
+            <div class="modal-name"></div>
+          </div>
+          <button class="modal-play-again button">Play Again</button>
+        </dialog>
+      </div>
+    </main>
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+  </body>
 </html>

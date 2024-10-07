@@ -1,13 +1,11 @@
+'use strict';
 /* exported mysteryPokemon, writeData, readData */
-
-const mysteryPokemon: GamePokemon = readData();
-
-function writeData(Pokemon: GamePokemon): void {
+let mysteryPokemon = readData();
+function writeData(Pokemon) {
   const dataJSON = JSON.stringify(Pokemon);
   localStorage.setItem('pokemon-storage', dataJSON);
 }
-
-function readData(): GamePokemon {
+function readData() {
   const pokemonStorage = localStorage.getItem('pokemon-storage');
   if (pokemonStorage !== null) {
     return JSON.parse(pokemonStorage);

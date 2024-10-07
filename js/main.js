@@ -1,20 +1,15 @@
+'use strict';
 /* global mysteryPokemon, writeData */
-const $textInput = document.querySelector('.text-input') as HTMLInputElement;
-const $form = document.querySelector('form') as HTMLFormElement;
-const $guessRow = document.querySelector('.guess-row') as HTMLDivElement;
-const $scrollbox = document.querySelector('.scrollbox') as HTMLDivElement;
-const $winModal = document.querySelector('.win-modal') as HTMLDialogElement;
-const $modalSprite = document.querySelector(
-  '.modal-sprite',
-) as HTMLImageElement;
-const $modalName = document.querySelector('.modal-name') as HTMLDivElement;
-const $closeModalButton = document.querySelector(
-  '.close-modal',
-) as HTMLButtonElement;
-const $modalPlayAgain = document.querySelector(
-  '.modal-play-again',
-) as HTMLButtonElement;
-const $gameContent = document.querySelector('.game-content') as HTMLDivElement;
+const $textInput = document.querySelector('.text-input');
+const $form = document.querySelector('form');
+const $guessRow = document.querySelector('.guess-row');
+const $scrollbox = document.querySelector('.scrollbox');
+const $winModal = document.querySelector('.win-modal');
+const $modalSprite = document.querySelector('.modal-sprite');
+const $modalName = document.querySelector('.modal-name');
+const $closeModalButton = document.querySelector('.close-modal');
+const $modalPlayAgain = document.querySelector('.modal-play-again');
+const $gameContent = document.querySelector('.game-content');
 if (!$textInput) throw new Error('$textInput query failed');
 if (!$form) throw new Error('$form query failed');
 if (!$guessRow) throw new Error('$guessRow query failed');
@@ -25,61 +20,8 @@ if (!$modalName) throw new Error('$modalName query failed');
 if (!$closeModalButton) throw new Error('$closeModalButton query failed');
 if (!$modalPlayAgain) throw new Error('$modalPlayAgain query failed');
 if (!$gameContent) throw new Error('$gameContent query selector failed');
-interface PokemonTypes {
-  slot: number;
-  type: { name: string; url: string };
-}
-
-interface PokemonSpecies {
-  evolution_chain: { url: string };
-}
-
-interface PokemonEvoChain {
-  chain: {
-    species: { name: string };
-    evolves_to: [
-      {
-        species: { name: string };
-        evolves_to: [{ species: { name: string } }];
-      },
-    ];
-  };
-}
-
-interface Pokemon {
-  id: number;
-  name: string;
-  height: number;
-  weight: number;
-  types: PokemonTypes[];
-  sprites: {
-    front_default: string;
-  };
-}
-
-interface GamePokemon {
-  name: string;
-  height: number;
-  weight: number;
-  types: string[];
-  generation: string;
-  stage: number;
-  sprites: string;
-  isSolved?: boolean;
-}
-
-interface GuessBGColor {
-  pokemonBGColor: string;
-  type1BGColor: string;
-  type2BGColor: string;
-  weightBG: string;
-  heightBG: string;
-  generationBG: string;
-  evoStageBG: string;
-}
-
-const guessPokemon = {} as GamePokemon;
-const guessBGColor: GuessBGColor = {
+const guessPokemon = {};
+const guessBGColor = {
   pokemonBGColor: '',
   type1BGColor: '',
   type2BGColor: '',
@@ -88,36 +30,29 @@ const guessBGColor: GuessBGColor = {
   generationBG: '',
   evoStageBG: '',
 };
-
 const randomNum = Math.random();
 const randomPokeNum = (randomNum * 1000).toFixed(0);
-
-$winModal.addEventListener('click', (event: Event) => {
+$winModal.addEventListener('click', (event) => {
   const eventTarget = event.target;
   if (eventTarget === $closeModalButton) {
     $winModal.setAttribute('class', 'hidden win-modal');
   }
 });
-
-$winModal.addEventListener('click', (event: Event) => {
+$winModal.addEventListener('click', (event) => {
   const eventTarget = event.target;
   if (eventTarget === $modalPlayAgain) {
     location.reload();
   }
 });
-
 document.addEventListener('DOMContentLoaded', () => {
   $winModal.setAttribute('class', 'hidden win-modal');
   if (mysteryPokemon.isSolved === undefined) {
     fetchData(mysteryPokemon, randomPokeNum);
   }
 });
-
 $form.addEventListener('submit', handleSubmit);
-
-async function handleSubmit(event: Event): Promise<void> {
+async function handleSubmit(event) {
   event.preventDefault();
-
   const guessPokemonText = $textInput.value;
   const fetchSuccess = await fetchData(guessPokemon, guessPokemonText);
   $textInput.placeholder = '';
@@ -127,15 +62,10 @@ async function handleSubmit(event: Event): Promise<void> {
     return;
   }
   $form.reset();
-
   compareAnswer(mysteryPokemon, guessPokemon);
   winModal(guessBGColor.pokemonBGColor);
 }
-
-async function fetchData(
-  pokemon: GamePokemon,
-  pokeId: number | string,
-): Promise<boolean> {
+async function fetchData(pokemon, pokeId) {
   try {
     const fetchResponse = await fetch(
       `https://pokeapi.co/api/v2/pokemon/${pokeId}`,
@@ -143,8 +73,7 @@ async function fetchData(
     if (!fetchResponse.ok) {
       throw new Error(`HTTP Error! Status: ${fetchResponse}`);
     }
-
-    const data = (await fetchResponse.json()) as Pokemon;
+    const data = await fetchResponse.json();
     const { id, name, height, weight, types, sprites } = data;
     const typeNames = types.map((typeInfo) => typeInfo.type.name);
     pokemon.name = name;
@@ -168,35 +97,25 @@ async function fetchData(
     return false;
   }
 }
-
-async function fetchEvoChain(
-  evoSpeciesUrl: string,
-  name: string,
-  pokemon: GamePokemon,
-): Promise<void> {
+async function fetchEvoChain(evoSpeciesUrl, name, pokemon) {
   try {
     const chainResponse = await fetch(evoSpeciesUrl);
     if (!chainResponse.ok) {
       throw new Error(`HTTP Error! Status: ${chainResponse}`);
     }
-    const EvoChainData = (await chainResponse.json()) as PokemonSpecies;
+    const EvoChainData = await chainResponse.json();
     await fetchEvoStage(EvoChainData.evolution_chain.url, name, pokemon);
   } catch (error) {
     console.error('Error: ', error);
   }
 }
-
-async function fetchEvoStage(
-  evoChainUrl: string,
-  name: string,
-  pokemon: GamePokemon,
-): Promise<void> {
+async function fetchEvoStage(evoChainUrl, name, pokemon) {
   try {
     const chainResponse = await fetch(evoChainUrl);
     if (!chainResponse.ok) {
       throw new Error(`HTTP Error! Status: ${chainResponse}`);
     }
-    const speciesData = (await chainResponse.json()) as PokemonEvoChain;
+    const speciesData = await chainResponse.json();
     let stageNum = 1;
     if (
       speciesData.chain.species.name &&
@@ -212,7 +131,6 @@ async function fetchEvoStage(
       stageNum = 2;
       pokemon.stage = stageNum;
     }
-
     if (
       speciesData.chain.evolves_to[0].evolves_to[0].species.name &&
       speciesData.chain.evolves_to[0].evolves_to[0].species.name === name
@@ -224,8 +142,7 @@ async function fetchEvoStage(
     console.error('Error: ', error);
   }
 }
-
-function handleRegion(num: number, pokemon: GamePokemon): void {
+function handleRegion(num, pokemon) {
   let generation = '';
   if (num >= 1 && num <= 151) {
     generation = '1 Kanto';
@@ -248,8 +165,7 @@ function handleRegion(num: number, pokemon: GamePokemon): void {
   }
   pokemon.generation = generation;
 }
-
-function mysteryPokemonLocalStorage(): void {
+function mysteryPokemonLocalStorage() {
   if (!mysteryPokemon.isSolved) {
     mysteryPokemon.isSolved = false;
     writeData(mysteryPokemon);
@@ -258,11 +174,7 @@ function mysteryPokemonLocalStorage(): void {
     writeData(mysteryPokemon);
   }
 }
-
-function compareAnswer(
-  mysteryPokemon: GamePokemon,
-  guessPokemon: GamePokemon,
-): void {
+function compareAnswer(mysteryPokemon, guessPokemon) {
   if (guessPokemon.name === mysteryPokemon.name) {
     guessBGColor.pokemonBGColor = 'green-background';
   } else {
@@ -317,8 +229,7 @@ function compareAnswer(
   renderGuess(guessPokemon);
   winModal(guessBGColor.pokemonBGColor);
 }
-
-function renderGuess(pokemon: GamePokemon): HTMLDivElement {
+function renderGuess(pokemon) {
   const $divGuessRow = document.createElement('div');
   $divGuessRow.setAttribute('class', 'row guess-row');
   const $divGuessName = document.createElement('div');
@@ -350,7 +261,6 @@ function renderGuess(pokemon: GamePokemon): HTMLDivElement {
       `large-text-type type2 ${guessBGColor.type2BGColor}`,
     );
   }
-
   const $divGuessSquareWeight = document.createElement('div');
   $divGuessSquareWeight.setAttribute(
     'class',
@@ -375,7 +285,6 @@ function renderGuess(pokemon: GamePokemon): HTMLDivElement {
     `guess-square stage ${guessBGColor.evoStageBG}`,
   );
   $divGuessSquareStage.textContent = `Stage ${pokemon.stage}`;
-
   $scrollbox.prepend($divGuessRow);
   $divGuessRow.append($divGuessName);
   $divGuessRow.append($divGuessSprite);
@@ -388,13 +297,11 @@ function renderGuess(pokemon: GamePokemon): HTMLDivElement {
   $divGuessRow.append($divGuessSquareStage);
   return $divGuessRow;
 }
-
-function renderModal(): void {
+function renderModal() {
   $modalSprite.src = mysteryPokemon.sprites;
   $modalName.textContent = mysteryPokemon.name;
 }
-
-function winModal(winColor: string): void {
+function winModal(winColor) {
   if (winColor === 'green-background') {
     renderModal();
     $winModal.setAttribute('class', 'win-modal');

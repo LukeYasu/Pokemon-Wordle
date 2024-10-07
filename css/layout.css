@@ -1,0 +1,90 @@
+main {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 640px;
+  height: 100%;
+}
+
+.pokedex-header-img {
+  width: 100%;
+}
+
+.row {
+  display: flex;
+  width: 100%;
+}
+
+.col-full {
+  width: 100%;
+}
+
+.col-one-sixth {
+  width: 16%;
+}
+
+.input-text-button {
+  display: flex;
+  justify-content: center;
+}
+
+.game-content {
+  display: flex;
+  justify-content: center;
+}
+
+.game-box {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+}
+
+.attribute-header {
+  display: flex;
+  justify-content: center;
+}
+
+.scrollbox {
+  display: flex;
+  flex-direction: column;
+}
+
+.guess-square {
+  display: flex;
+  flex-direction: column;
+  width: 80px;
+}
+
+.footer-row {
+  align-self: flex-end;
+}
+
+.footer-img {
+  width: 100%;
+}
+
+dialog {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.close-modal {
+  width: 2rem;
+  height: 2rem;
+  align-self: flex-end;
+  font-size: 1rem;
+}
+
+.modal-sprite-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
