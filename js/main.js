@@ -10,6 +10,24 @@ const $modalName = document.querySelector('.modal-name');
 const $closeModalButton = document.querySelector('.close-modal');
 const $modalPlayAgain = document.querySelector('.modal-play-again');
 const $gameContent = document.querySelector('.game-content');
+const $hintBox = document.querySelector('.hint-box');
+const $hintsClose = document.querySelector('.hints-close');
+const $hintButton = document.querySelector('.hint-button');
+const $hintOpenButton1 = document.querySelector('.hint-open-button1');
+const $hintOpenButton2 = document.querySelector('.hint-open-button2');
+const $hintOpenButton3 = document.querySelector('.hint-open-button3');
+const $hintOpenButton4 = document.querySelector('.hint-open-button4');
+const $hintAnswer1Box = document.querySelector('.hint-answer1-box');
+const $hintAnswer2Box = document.querySelector('.hint-answer2-box');
+const $hintAnswer3Box = document.querySelector('.hint-answer3-box');
+const $hintAnswer4Box = document.querySelector('.hint-answer4-box');
+const $hint1Sprite = document.querySelector('.hint-sprite-1');
+const $hint2 = document.querySelector('.hint2');
+const $hint4 = document.querySelector('.hint4');
+const $hint3Sprite = document.querySelector('.hint-sprite-3');
+const $hintModalBackground = document.querySelector('.hint-modal-background');
+const $giveUpButton = document.querySelector('.give-up-button');
+const $newGameButton = document.querySelector('.new-game-button');
 if (!$textInput) throw new Error('$textInput query failed');
 if (!$form) throw new Error('$form query failed');
 if (!$guessRow) throw new Error('$guessRow query failed');
@@ -20,6 +38,24 @@ if (!$modalName) throw new Error('$modalName query failed');
 if (!$closeModalButton) throw new Error('$closeModalButton query failed');
 if (!$modalPlayAgain) throw new Error('$modalPlayAgain query failed');
 if (!$gameContent) throw new Error('$gameContent query selector failed');
+if (!$hintBox) throw new Error('$hintBox query failed');
+if (!$hintsClose) throw new Error('$hintsClose query failed');
+if (!$hintButton) throw new Error('$hintButton query failed');
+if (!$hintOpenButton1) throw new Error('$hintOpenButton1 query failed');
+if (!$hintOpenButton2) throw new Error('$hintOpenButton2 query failed');
+if (!$hintOpenButton3) throw new Error('$hintOpenButton3 query failed');
+if (!$hintOpenButton4) throw new Error('$hintOpenButton4 query failed');
+if (!$hintAnswer1Box) throw new Error('$hintAnswer1Box query failed');
+if (!$hintAnswer2Box) throw new Error('$hintAnswer2Box query failed');
+if (!$hintAnswer3Box) throw new Error('$hintAnswer3Box query failed');
+if (!$hintAnswer4Box) throw new Error('$hintAnswer4Box query failed');
+if (!$hint1Sprite) throw new Error('$hint1Sprite query failed');
+if (!$hint2) throw new Error('$hint2 query failed');
+if (!$hint4) throw new Error('$hint4 query failed');
+if (!$hint3Sprite) throw new Error('$hint3Sprite query failed');
+if (!$hintModalBackground) throw new Error('$hintModalbackground query failed');
+if (!$giveUpButton) throw new Error('$giveUpButton query failed');
+if (!$newGameButton) throw new Error('$newGameButton query failed');
 const guessPokemon = {};
 const guessBGColor = {
   pokemonBGColor: '',
@@ -35,20 +71,83 @@ const randomPokeNum = (randomNum * 1000).toFixed(0);
 $winModal.addEventListener('click', (event) => {
   const eventTarget = event.target;
   if (eventTarget === $closeModalButton) {
-    $winModal.setAttribute('class', 'hidden win-modal');
+    $winModal.remove();
   }
-});
-$winModal.addEventListener('click', (event) => {
-  const eventTarget = event.target;
   if (eventTarget === $modalPlayAgain) {
     location.reload();
   }
+});
+$hintButton.addEventListener('click', (event) => {
+  const eventTarget = event.target;
+  if (eventTarget === $hintButton) {
+    $hintBox.setAttribute('class', 'hint-box');
+    $hintModalBackground.setAttribute('class', 'hint-modal-background');
+  }
+});
+$hintBox.addEventListener('click', (event) => {
+  const eventTarget = event.target;
+  if (eventTarget === $hintsClose) {
+    $hintBox.setAttribute('class', 'hidden hint-box');
+    $hintModalBackground.setAttribute('class', 'hint-modal-background hidden');
+  }
+  if (eventTarget === $hintOpenButton1 && $hintAnswer1Box.matches('.hidden')) {
+    $hintAnswer1Box.setAttribute('class', 'hint-answer hint-answer1-box');
+  } else if (
+    eventTarget === $hintOpenButton1 &&
+    !$hintAnswer1Box.matches('.hidden')
+  ) {
+    $hintAnswer1Box.setAttribute(
+      'class',
+      'hidden hint-answer hint-answer1-box',
+    );
+  }
+  if (eventTarget === $hintOpenButton2 && $hintAnswer2Box.matches('.hidden')) {
+    $hintAnswer2Box.setAttribute('class', 'hint-answer2-box hint-answer hint2');
+  } else if (
+    eventTarget === $hintOpenButton2 &&
+    !$hintAnswer2Box.matches('.hidden')
+  ) {
+    $hintAnswer2Box.setAttribute(
+      'class',
+      'hint-answer2-box hint-answer hidden',
+    );
+  }
+  if (eventTarget === $hintOpenButton3 && $hintAnswer3Box.matches('.hidden')) {
+    $hintAnswer3Box.setAttribute('class', 'hint-answer hint-answer-3-box');
+  } else if (
+    eventTarget === $hintOpenButton3 &&
+    !$hintAnswer3Box.matches('.hidden')
+  ) {
+    $hintAnswer3Box.setAttribute(
+      'class',
+      'hint-answer3-box hint-answer hidden',
+    );
+  }
+  if (eventTarget === $hintOpenButton4 && $hintAnswer4Box.matches('.hidden')) {
+    $hintAnswer4Box.setAttribute('class', 'hint-answer2-box hint-answer hint2');
+  } else if (
+    eventTarget === $hintOpenButton4 &&
+    !$hintAnswer4Box.matches('.hidden')
+  ) {
+    $hintAnswer4Box.setAttribute(
+      'class',
+      'hint-answer2-box hint-answer hidden',
+    );
+  }
+  if (eventTarget === $giveUpButton) {
+    console.log(eventTarget);
+    $textInput.value = mysteryPokemon.name;
+  }
+});
+$newGameButton.addEventListener('click', () => {
+  location.reload();
 });
 document.addEventListener('DOMContentLoaded', () => {
   $winModal.setAttribute('class', 'hidden win-modal');
   if (mysteryPokemon.isSolved === undefined) {
     fetchData(mysteryPokemon, randomPokeNum);
   }
+  getHints();
 });
 $form.addEventListener('submit', handleSubmit);
 async function handleSubmit(event) {
@@ -161,7 +260,7 @@ function handleRegion(num, pokemon) {
   } else if (num >= 810 && num <= 905) {
     generation = '8 Galar';
   } else if (num >= 906 && num <= 1025) {
-    generation = '9 Paleda';
+    generation = '9 Paldea';
   }
   pokemon.generation = generation;
 }
@@ -308,5 +407,35 @@ function winModal(winColor) {
     $winModal.showModal();
     mysteryPokemon.isSolved = true;
     fetchData(mysteryPokemon, randomPokeNum);
+    $newGameButton.setAttribute('class', 'new-game-button');
   }
+}
+function getHints() {
+  let hint2answer = '';
+  let hint4answer = '';
+  const alphabet = /^[a-zA-Z]$/;
+  if (mysteryPokemon.isSolved === false) {
+    $hint1Sprite.src = mysteryPokemon.sprites;
+    $hint3Sprite.src = mysteryPokemon.sprites;
+  }
+  for (let i = 0; i < mysteryPokemon.name.length; i++) {
+    if (!alphabet.test(mysteryPokemon.name[i])) {
+      hint2answer += `${mysteryPokemon.name[i]} `;
+    } else if (i === 1) {
+      hint2answer += `${mysteryPokemon.name[i]} `;
+    } else if (i === mysteryPokemon.name.length - 1) {
+      hint2answer += mysteryPokemon.name[i];
+    } else {
+      hint2answer += '_ ';
+    }
+  }
+  for (let i = 0; i < mysteryPokemon.name.length; i++) {
+    if (i % 2 === 0) {
+      hint4answer += `${mysteryPokemon.name[i]} `;
+    } else {
+      hint4answer += '_ ';
+    }
+  }
+  $hint4.textContent = hint4answer;
+  $hint2.textContent = hint2answer;
 }

@@ -27,10 +27,13 @@
         </div>
         <div class="row">
           <div class="col-full input-text-button">
-            <form>
+            <form class="col-two-thirds form-content">
               <input class="text-input" type="text" required />
               <input class="enter-button" type="submit" value="Enter" />
             </form>
+            <div class="hint-button-container">
+              <button class="hint-button">Hint</button>
+            </div>
           </div>
         </div>
         <div class="row">
@@ -48,6 +51,7 @@
                 <div class="row guess-row"></div>
               </div>
             </div>
+            <button class="new-game-button hidden">New Game</button>
           </div>
         </div>
         <div class="row footer-row">
@@ -65,6 +69,54 @@
           </div>
           <button class="modal-play-again button">Play Again</button>
         </dialog>
+        <div class="hint-modal-background hidden"></div>
+        <div class="hint-box hidden">
+          <div class="row close-hint-button">
+            <div class="hint-info">
+              <span>?</span>
+              <div class="hint-info-text">
+                Hint 1: Blurry silhouette of mystery Pokémon sprite<br />Hint 2:
+                first and last character of the mystery Pokémon name<br />Hint
+                3: Blurry colored sprite of mystery Pokémon<br />Hint 4: every
+                other character of mystery Pokémon
+              </div>
+            </div>
+            <button class="hints-close">X</button>
+          </div>
+          <div class="hint-scrollbox">
+            <div class="hint-title">
+              <div class="title-box">Hint 1</div>
+              <button class="hint-open-button1">V</button>
+            </div>
+            <div class="hint-answer1-box hint-answer hidden">
+              <img
+                class="hint-sprite-1"
+                src=""
+                alt="blurry monochrome pokemon sprite" />
+            </div>
+            <div class="hint-title">
+              <div class="title-box">Hint 2</div>
+              <button class="hint-open-button2">V</button>
+            </div>
+            <div class="hint-answer2-box hint-answer hint2 hidden"></div>
+            <div class="hint-title">
+              <div class="title-box">Hint 3</div>
+              <button class="hint-open-button3">V</button>
+            </div>
+            <div class="hint-answer3-box hint-answer hidden">
+              <img
+                class="hint-sprite-3"
+                src=""
+                alt="blurry colored pokemon sprite" />
+            </div>
+            <div class="hint-title">
+              <div class="title-box">Hint 4</div>
+              <button class="hint-open-button4">V</button>
+            </div>
+            <div class="hint-answer hint-answer4-box hint4 hidden"></div>
+            <button class="give-up-button">Give Up</button>
+          </div>
+        </div>
       </div>
     </main>
     <script src="js/data.js"></script>
