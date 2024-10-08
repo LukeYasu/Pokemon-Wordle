@@ -2,7 +2,7 @@
   display: none !important;
 }
 
-main {
+body {
   background-color: #dc082d;
 }
 
@@ -20,13 +20,16 @@ input {
   border-radius: 5px;
 }
 
+button {
+  font-family: 'IBM Plex Mono', monospace;
+}
+
 .enter-button {
   width: 4rem;
   color: white;
   background-color: #fa0707;
   border: #bb0505 solid 1px;
   border-radius: 5px;
-  font-family: 'IBM Plex Mono', monospace;
 }
 
 .hint-button {
@@ -36,16 +39,36 @@ input {
   border: #c2c2c2 solid 1px;
   border-radius: 5px;
   margin-right: 1.15rem;
-  font-family: 'IBM Plex Mono', monospace;
 }
 
-.close-hint-button {
-  justify-content: flex-end;
+.hint-info {
+  margin-left: 0.5rem;
+  height: 19px;
+  width: 19px;
+  border-radius: 20px;
+  text-align: center;
+  background-color: #c2c2c2;
+  color: white;
+  align-self: center;
+  font-size: 0.7rem;
+  line-height: 20px;
 }
 
-.close-hint-button button {
+.hint-info-text {
+  width: 300px;
+  background-color: rgb(126 126 126);
+  display: none;
+  border-radius: 5px;
+  text-align: start;
+  padding: 0.5rem;
+  z-index: 20;
+}
+
+.hints-close {
   width: 30px;
   padding: 5px;
+  margin-top: 0.5rem;
+  margin-right: 0.5rem;
   border-radius: 5px;
   border: grey solid 1px;
 }
@@ -59,31 +82,32 @@ input {
   filter: opacity(50%);
 }
 
+.close-hint-button {
+  z-index: 2;
+}
+
 .hint-box {
-  display: flex;
+  position: absolute;
   width: 400px;
   height: 400px;
   background-color: #d9d9d9;
   top: calc(50% - 200px);
+  left: calc(50% - 200px);
   border: grey solid 2px;
   border-radius: 0.5rem;
   filter: opacity(100%);
 }
 
 .hint-scrollbox {
-  display: flex;
-  flex-direction: column;
   overflow-y: scroll;
   margin: 0.2rem;
   width: 100%;
 }
 
 .hint-title {
-  display: flex;
-  justify-content: space-between;
   background-color: #c2c2c2;
-  margin: 1rem;
-  margin-bottom: 0;
+  margin: 0.5rem;
+  margin-top: 0;
   padding: 0.5rem;
   border-radius: 0.5rem;
   z-index: 1;
@@ -105,13 +129,10 @@ input {
 
 .hint-answer {
   position: relative;
-  bottom: 10px;
-  display: flex;
-  justify-content: center;
+  bottom: 20px;
   background-color: white;
   border-radius: 5px;
-  margin: 0 1rem;
-  padding-top: 10px;
+  margin: 0 0.5rem;
   font-size: 1.5rem;
 }
 
@@ -131,6 +152,16 @@ input {
 .hint-sprite-3 {
   width: 200px;
   filter: blur(7px);
+}
+
+.give-up-button {
+  width: 70px;
+  align-self: center;
+  justify-self: flex-end;
+  margin-top: 6.5rem;
+  background-color: rgb(255, 85, 85);
+  border: rgb(173, 0, 0) solid 1px;
+  border-radius: 5px;
 }
 
 .game-box {
@@ -168,6 +199,7 @@ input {
 }
 
 .guess-square {
+  width: 80px;
   text-align: center;
   line-height: 35px;
   border: #d9d9d9 solid 5px;
@@ -254,6 +286,24 @@ input {
   border-radius: 10px;
 }
 
+.close-modal {
+  width: 2rem;
+  height: 2rem;
+  align-self: flex-end;
+  font-size: 1rem;
+  border: 1px solid #979797;
+  border-radius: 0.5rem;
+}
+
+.new-game-button {
+  margin: 1rem;
+  background-color: #03b403;
+  border: 1px solid #037b03;
+  border-radius: 5px;
+  font-size: 1rem;
+  padding: 0.5rem;
+}
+
 .enter-button:hover {
   cursor: pointer;
 }
@@ -269,4 +319,23 @@ dialog::backdrop {
 
 .hint-box::backdrop {
   background-color: black;
+}
+
+.hint-info:hover {
+  cursor: default;
+}
+
+.hint-info:hover .hint-info-text {
+  display: block;
+}
+
+@media screen and (width >= 1200px) {
+  .hint-modal-background {
+    display: none;
+  }
+
+  .hint-box {
+    left: calc(50% + 300px);
+    top: calc(295px);
+  }
 }

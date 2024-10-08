@@ -53,6 +53,12 @@ const $hint3Sprite = document.querySelector(
 const $hintModalBackground = document.querySelector(
   '.hint-modal-background',
 ) as HTMLDivElement;
+const $giveUpButton = document.querySelector(
+  '.give-up-button',
+) as HTMLButtonElement;
+const $newGameButton = document.querySelector(
+  '.new-game-button',
+) as HTMLButtonElement;
 if (!$textInput) throw new Error('$textInput query failed');
 if (!$form) throw new Error('$form query failed');
 if (!$guessRow) throw new Error('$guessRow query failed');
@@ -79,6 +85,8 @@ if (!$hint2) throw new Error('$hint2 query failed');
 if (!$hint4) throw new Error('$hint4 query failed');
 if (!$hint3Sprite) throw new Error('$hint3Sprite query failed');
 if (!$hintModalBackground) throw new Error('$hintModalbackground query failed');
+if (!$giveUpButton) throw new Error('$giveUpButton query failed');
+if (!$newGameButton) throw new Error('$newGameButton query failed');
 
 interface PokemonTypes {
   slot: number;
@@ -150,12 +158,8 @@ const randomPokeNum = (randomNum * 1000).toFixed(0);
 $winModal.addEventListener('click', (event: Event) => {
   const eventTarget = event.target;
   if (eventTarget === $closeModalButton) {
-    $winModal.setAttribute('class', 'hidden win-modal');
+    $winModal.remove();
   }
-});
-
-$winModal.addEventListener('click', (event: Event) => {
-  const eventTarget = event.target;
   if (eventTarget === $modalPlayAgain) {
     location.reload();
   }
@@ -219,6 +223,14 @@ $hintBox.addEventListener('click', (event: Event) => {
       'hint-answer2-box hint-answer hidden',
     );
   }
+  if (eventTarget === $giveUpButton) {
+    console.log(eventTarget);
+    $textInput.value = mysteryPokemon.name;
+  }
+});
+
+$newGameButton.addEventListener('click', () => {
+  location.reload();
 });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -517,6 +529,7 @@ function winModal(winColor: string): void {
     $winModal.showModal();
     mysteryPokemon.isSolved = true;
     fetchData(mysteryPokemon, randomPokeNum);
+    $newGameButton.setAttribute('class', 'new-game-button');
   }
 }
 

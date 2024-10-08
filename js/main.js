@@ -26,6 +26,8 @@ const $hint2 = document.querySelector('.hint2');
 const $hint4 = document.querySelector('.hint4');
 const $hint3Sprite = document.querySelector('.hint-sprite-3');
 const $hintModalBackground = document.querySelector('.hint-modal-background');
+const $giveUpButton = document.querySelector('.give-up-button');
+const $newGameButton = document.querySelector('.new-game-button');
 if (!$textInput) throw new Error('$textInput query failed');
 if (!$form) throw new Error('$form query failed');
 if (!$guessRow) throw new Error('$guessRow query failed');
@@ -52,6 +54,8 @@ if (!$hint2) throw new Error('$hint2 query failed');
 if (!$hint4) throw new Error('$hint4 query failed');
 if (!$hint3Sprite) throw new Error('$hint3Sprite query failed');
 if (!$hintModalBackground) throw new Error('$hintModalbackground query failed');
+if (!$giveUpButton) throw new Error('$giveUpButton query failed');
+if (!$newGameButton) throw new Error('$newGameButton query failed');
 const guessPokemon = {};
 const guessBGColor = {
   pokemonBGColor: '',
@@ -67,11 +71,8 @@ const randomPokeNum = (randomNum * 1000).toFixed(0);
 $winModal.addEventListener('click', (event) => {
   const eventTarget = event.target;
   if (eventTarget === $closeModalButton) {
-    $winModal.setAttribute('class', 'hidden win-modal');
+    $winModal.remove();
   }
-});
-$winModal.addEventListener('click', (event) => {
-  const eventTarget = event.target;
   if (eventTarget === $modalPlayAgain) {
     location.reload();
   }
@@ -133,6 +134,13 @@ $hintBox.addEventListener('click', (event) => {
       'hint-answer2-box hint-answer hidden',
     );
   }
+  if (eventTarget === $giveUpButton) {
+    console.log(eventTarget);
+    $textInput.value = mysteryPokemon.name;
+  }
+});
+$newGameButton.addEventListener('click', () => {
+  location.reload();
 });
 document.addEventListener('DOMContentLoaded', () => {
   $winModal.setAttribute('class', 'hidden win-modal');
@@ -399,6 +407,7 @@ function winModal(winColor) {
     $winModal.showModal();
     mysteryPokemon.isSolved = true;
     fetchData(mysteryPokemon, randomPokeNum);
+    $newGameButton.setAttribute('class', 'new-game-button');
   }
 }
 function getHints() {
