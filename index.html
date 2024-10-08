@@ -27,10 +27,13 @@
         </div>
         <div class="row">
           <div class="col-full input-text-button">
-            <form>
+            <form class="col-two-thirds form-content">
               <input class="text-input" type="text" required />
               <input class="enter-button" type="submit" value="Enter" />
             </form>
+            <div class="hint-button-container">
+              <button class="hint-button">Hint</button>
+            </div>
           </div>
         </div>
         <div class="row">
@@ -64,6 +67,40 @@
             <div class="modal-name"></div>
           </div>
           <button class="modal-play-again button">Play Again</button>
+        </dialog>
+        <div class="hint-modal-background hidden"></div>
+        <dialog class="hint-box hidden">
+          <div class="row close-hint-button">
+            <button class="hints-close">X</button>
+          </div>
+          <div class="hint-scrollbox">
+            <div class="hint-title">
+              <div class="title-box">Hint 1</div>
+              <button class="hint-open-button1">V</button>
+            </div>
+            <div class="hint-answer1-box hint-answer hidden">
+              <img class="hint-sprite-1" src="" />
+            </div>
+            <div class="hint-title">
+              <div class="title-box">Hint 2</div>
+              <button class="hint-open-button2">V</button>
+            </div>
+            <div class="hint-answer2-box hint-answer hint2 hidden"></div>
+            <div class="hint-title">
+              <div class="title-box">Hint 3</div>
+              <button class="hint-open-button3">V</button>
+            </div>
+            <div class="hint-answer3-box hint-answer hidden">
+              <img class="hint-sprite-3" src="" />
+            </div>
+            <div class="hint-title">
+              <div class="title-box">Hint 4</div>
+              <button class="hint-open-button4">V</button>
+            </div>
+            <div class="hint-answer hint-answer4-box hint4 hidden">
+              fasfasfsd
+            </div>
+          </div>
         </dialog>
       </div>
     </main>
