@@ -224,7 +224,6 @@ $hintBox.addEventListener('click', (event: Event) => {
     );
   }
   if (eventTarget === $giveUpButton) {
-    console.log(eventTarget);
     $textInput.value = mysteryPokemon.name;
   }
 });
