@@ -169,14 +169,16 @@ interface AllPokemon {
 const allPokemonArray: AllPokemon[] = [];
 
 const randomNum = Math.random();
-const randomPokeNum = (randomNum * 1000).toFixed(0);
+const randomPokeNum = Number((randomNum * 1000).toFixed(0));
 
 $textInput.addEventListener('input', () => {
   const currentTextInput = $textInput.value.trim();
+  $dropdownScrollbox.setAttribute('class', 'dropdown-scrollbox');
   while ($dropdownScrollbox.firstChild) {
     $dropdownScrollbox.removeChild($dropdownScrollbox.firstChild);
   }
   if (currentTextInput === '') {
+    $dropdownScrollbox.setAttribute('class', 'hidden');
     return;
   }
   const $dropdownULElement = document.createElement('ul');
@@ -225,7 +227,9 @@ $winModal.addEventListener('click', (event: Event) => {
 
 $hintButton.addEventListener('click', (event: Event) => {
   const eventTarget = event.target;
-  if (eventTarget === $hintButton) {
+  if (eventTarget === $hintButton && !$hintBox.matches('.hidden')) {
+    $hintBox.setAttribute('class', 'hint-box hidden');
+  } else if (eventTarget === $hintButton) {
     $hintBox.setAttribute('class', 'hint-box');
     $hintModalBackground.setAttribute('class', 'hint-modal-background');
   }
@@ -595,6 +599,7 @@ function winModal(winColor: string): void {
     fetchData(mysteryPokemon, randomPokeNum);
     $newGameButton.setAttribute('class', 'new-game-button');
     $giveUpButton.remove();
+    $textInput.disabled = true;
   }
 }
 
@@ -605,6 +610,7 @@ function getHints(): void {
   if (mysteryPokemon.isSolved === false) {
     $hint1Sprite.src = mysteryPokemon.sprites;
     $hint3Sprite.src = mysteryPokemon.sprites;
+    $hint1Sprite.style.rotate = `${Math.random() * 1000}deg`;
   }
   for (let i = 0; i < mysteryPokemon.name.length; i++) {
     if (!alphabet.test(mysteryPokemon.name[i])) {
