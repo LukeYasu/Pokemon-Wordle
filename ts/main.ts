@@ -59,6 +59,15 @@ const $giveUpButton = document.querySelector(
 const $newGameButton = document.querySelector(
   '.new-game-button',
 ) as HTMLButtonElement;
+const $dropdownScrollbox = document.querySelector(
+  '.dropdown-scrollbox',
+) as HTMLDivElement;
+const $dropdownListElement = document.querySelector(
+  '.dropdown-list-element',
+) as HTMLLIElement;
+const $dropdownULElement = document.querySelector(
+  '.text-input-dropdown',
+) as HTMLUListElement;
 if (!$textInput) throw new Error('$textInput query failed');
 if (!$form) throw new Error('$form query failed');
 if (!$guessRow) throw new Error('$guessRow query failed');
@@ -87,6 +96,9 @@ if (!$hint3Sprite) throw new Error('$hint3Sprite query failed');
 if (!$hintModalBackground) throw new Error('$hintModalbackground query failed');
 if (!$giveUpButton) throw new Error('$giveUpButton query failed');
 if (!$newGameButton) throw new Error('$newGameButton query failed');
+if (!$dropdownScrollbox) throw new Error('$dropdownScrollbox query failed');
+if (!$dropdownULElement) throw new Error('$dropdownULElement query failed');
+// if (!$dropdownListElement) throw new Error('$dropdownListElement query failed');
 
 interface PokemonTypes {
   slot: number;
@@ -152,8 +164,47 @@ const guessBGColor: GuessBGColor = {
   evoStageBG: '',
 };
 
+interface AllPokemon {
+  name: string;
+  sprite: string;
+}
+
+const allPokemonArray: AllPokemon[] = [];
+
 const randomNum = Math.random();
 const randomPokeNum = (randomNum * 1000).toFixed(0);
+
+$textInput.addEventListener('input', () => {
+  const currentTextInput = $textInput.value;
+  while ($dropdownScrollbox.firstChild) {
+    $dropdownScrollbox.removeChild($dropdownScrollbox.firstChild);
+  }
+  if (currentTextInput === '') {
+    return;
+  }
+  const $dropdownULElement = document.createElement('ul');
+  $dropdownULElement.setAttribute('class', 'text-input-dropdown');
+
+  for (let i = 0; i < allPokemonArray.length; i++) {
+    if (
+      currentTextInput ===
+      allPokemonArray[i].name.slice(0, currentTextInput.length)
+    ) {
+      $dropdownScrollbox.append($dropdownULElement);
+      $dropdownULElement.append(
+        renderDropdown(allPokemonArray[i].sprite, allPokemonArray[i].name),
+      );
+    }
+  }
+});
+
+$dropdownScrollbox.addEventListener('click', (event: Event) => {
+  const eventTarget = event.target;
+  console.log(eventTarget);
+  if (eventTarget === $dropdownListElement) {
+    console.log('happy');
+  }
+});
 
 $winModal.addEventListener('click', (event: Event) => {
   const eventTarget = event.target;
@@ -240,11 +291,15 @@ document.addEventListener('DOMContentLoaded', () => {
   getHints();
 });
 
+fetchAllPokemon();
+
 $form.addEventListener('submit', handleSubmit);
 
 async function handleSubmit(event: Event): Promise<void> {
   event.preventDefault();
-
+  while ($dropdownScrollbox.firstChild) {
+    $dropdownScrollbox.removeChild($dropdownScrollbox.firstChild);
+  }
   const guessPokemonText = $textInput.value;
   const fetchSuccess = await fetchData(guessPokemon, guessPokemonText);
   $textInput.placeholder = '';
@@ -560,4 +615,56 @@ function getHints(): void {
   }
   $hint4.textContent = hint4answer;
   $hint2.textContent = hint2answer;
+}
+
+async function fetchPokemon(pokeId: number): Promise<void> {
+  try {
+    const fetchResponse = await fetch(
+      `https://pokeapi.co/api/v2/pokemon/${pokeId}`,
+    );
+    if (!fetchResponse.ok) {
+      throw new Error(`HTTP Error! Status: ${fetchResponse}`);
+    }
+    const pokemonNameSprite: AllPokemon = { name: '', sprite: '' };
+
+    const data = (await fetchResponse.json()) as Pokemon;
+    const { name, sprites } = data;
+    pokemonNameSprite.name = name;
+    pokemonNameSprite.sprite = sprites.front_default;
+    allPokemonArray.push(pokemonNameSprite);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function fetchAllPokemon(): Promise<AllPokemon[]> {
+  const fetchPromises = [];
+  for (let i = 1; i <= 1025; i++) {
+    fetchPromises.push(fetchPokemon(i));
+  }
+  await Promise.all(allPokemonArray);
+  return allPokemonArray;
+}
+
+// function handleKeystrokes(currentTextInput: string): void {
+//   for (let i = 0; i < allPokemonArray.length; i++) {
+//     if (
+//       currentTextInput ===
+//       allPokemonArray[i].name.slice(0, currentTextInput.length)
+//     ) {
+//     }
+//   }
+// }
+
+function renderDropdown(pokemonImg: string, pokemonName: string): HTMLElement {
+  const $dropdownListElement = document.createElement('li');
+  $dropdownListElement.setAttribute('class', 'dropdown-list-element');
+  const $dropdownImage = document.createElement('img');
+  $dropdownImage.setAttribute('class', 'text-input-dropdown-img');
+  $dropdownImage.src = pokemonImg;
+  const $dropdownSpan = document.createElement('span');
+  $dropdownSpan.textContent = pokemonName;
+  $dropdownListElement.append($dropdownImage);
+  $dropdownListElement.append($dropdownSpan);
+  return $dropdownListElement;
 }
