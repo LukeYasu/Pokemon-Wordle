@@ -13,11 +13,45 @@ body {
 input {
   margin: 2rem 0.25rem;
   height: 2rem;
+  z-index: 1;
 }
 
 .text-input {
   border: lightgray solid 1px;
   border-radius: 5px;
+  width: 200px;
+}
+
+.dropdown-scrollbox {
+  position: absolute;
+  overflow-y: auto;
+  max-height: 296px;
+  width: 200px;
+  left: calc(50% - 174px);
+  top: 260px;
+  border: lightgrey solid 1px;
+}
+
+.dropdown-list-element {
+  display: flex;
+  border: lightgrey solid 1px;
+}
+
+.text-input-dropdown {
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  list-style: none;
+  text-align: start;
+  padding-left: 0;
+  line-height: 2rem;
+  border-bottom-left-radius: 10px;
+  margin: 0;
+}
+
+.text-input-dropdown-img {
+  height: 40px;
+  padding-right: 0.5rem;
 }
 
 button {
@@ -56,7 +90,7 @@ button {
 
 .hint-info-text {
   width: 300px;
-  background-color: rgb(126 126 126);
+  background-color: rgb(152, 152, 152);
   display: none;
   border-radius: 5px;
   text-align: start;
@@ -80,6 +114,7 @@ button {
   height: 100%;
   background-color: black;
   filter: opacity(50%);
+  z-index: 1;
 }
 
 .close-hint-button {
@@ -327,6 +362,10 @@ dialog::backdrop {
 
 .hint-info:hover .hint-info-text {
   display: block;
+}
+
+.dropdown-list-element:hover {
+  cursor: pointer;
 }
 
 @media screen and (width >= 1200px) {
