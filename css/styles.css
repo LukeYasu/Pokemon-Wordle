@@ -34,8 +34,6 @@ input {
 .dropdown-list-element {
   display: flex;
   border: lightgrey solid 1px;
-
-  /* height: 100px; */
 }
 
 .text-input-dropdown {
@@ -90,7 +88,7 @@ button {
 
 .hint-info-text {
   width: 300px;
-  background-color: rgb(126 126 126);
+  background-color: rgb(152, 152, 152);
   display: none;
   border-radius: 5px;
   text-align: start;

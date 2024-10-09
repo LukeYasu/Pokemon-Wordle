@@ -62,9 +62,7 @@ const $newGameButton = document.querySelector(
 const $dropdownScrollbox = document.querySelector(
   '.dropdown-scrollbox',
 ) as HTMLDivElement;
-const $dropdownListElement = document.querySelector(
-  '.dropdown-list-element',
-) as HTMLLIElement;
+
 const $dropdownULElement = document.querySelector(
   '.text-input-dropdown',
 ) as HTMLUListElement;
@@ -98,7 +96,6 @@ if (!$giveUpButton) throw new Error('$giveUpButton query failed');
 if (!$newGameButton) throw new Error('$newGameButton query failed');
 if (!$dropdownScrollbox) throw new Error('$dropdownScrollbox query failed');
 if (!$dropdownULElement) throw new Error('$dropdownULElement query failed');
-// if (!$dropdownListElement) throw new Error('$dropdownListElement query failed');
 
 interface PokemonTypes {
   slot: number;
@@ -175,7 +172,7 @@ const randomNum = Math.random();
 const randomPokeNum = (randomNum * 1000).toFixed(0);
 
 $textInput.addEventListener('input', () => {
-  const currentTextInput = $textInput.value;
+  const currentTextInput = $textInput.value.trim();
   while ($dropdownScrollbox.firstChild) {
     $dropdownScrollbox.removeChild($dropdownScrollbox.firstChild);
   }
@@ -199,11 +196,21 @@ $textInput.addEventListener('input', () => {
 });
 
 $dropdownScrollbox.addEventListener('click', (event: Event) => {
-  const eventTarget = event.target;
-  console.log(eventTarget);
-  if (eventTarget === $dropdownListElement) {
-    console.log('happy');
+  const eventTarget = event.target as HTMLElement;
+  if (
+    eventTarget.matches(
+      '.dropdown-list-element, .dropdown-name, .text-input-dropdown-img',
+    )
+  ) {
+    const listElement = eventTarget.closest('.dropdown-list-element');
+    if (listElement && listElement.textContent) {
+      $textInput.value = listElement?.textContent;
+      $textInput.focus();
+    }
   }
+
+  const inputEvent = new Event('input', { bubbles: true });
+  $textInput.dispatchEvent(inputEvent);
 });
 
 $winModal.addEventListener('click', (event: Event) => {
@@ -568,6 +575,8 @@ function renderGuess(pokemon: GamePokemon): HTMLDivElement {
   $divGuessRow.append($divGuessSquareHeight);
   $divGuessRow.append($divGuessSquareGen);
   $divGuessRow.append($divGuessSquareStage);
+
+  $scrollbox.scrollTop = 0;
   return $divGuessRow;
 }
 
@@ -646,16 +655,6 @@ async function fetchAllPokemon(): Promise<AllPokemon[]> {
   return allPokemonArray;
 }
 
-// function handleKeystrokes(currentTextInput: string): void {
-//   for (let i = 0; i < allPokemonArray.length; i++) {
-//     if (
-//       currentTextInput ===
-//       allPokemonArray[i].name.slice(0, currentTextInput.length)
-//     ) {
-//     }
-//   }
-// }
-
 function renderDropdown(pokemonImg: string, pokemonName: string): HTMLElement {
   const $dropdownListElement = document.createElement('li');
   $dropdownListElement.setAttribute('class', 'dropdown-list-element');
@@ -663,6 +662,7 @@ function renderDropdown(pokemonImg: string, pokemonName: string): HTMLElement {
   $dropdownImage.setAttribute('class', 'text-input-dropdown-img');
   $dropdownImage.src = pokemonImg;
   const $dropdownSpan = document.createElement('span');
+  $dropdownSpan.setAttribute('class', 'dropdown-name');
   $dropdownSpan.textContent = pokemonName;
   $dropdownListElement.append($dropdownImage);
   $dropdownListElement.append($dropdownSpan);

@@ -29,7 +29,6 @@ const $hintModalBackground = document.querySelector('.hint-modal-background');
 const $giveUpButton = document.querySelector('.give-up-button');
 const $newGameButton = document.querySelector('.new-game-button');
 const $dropdownScrollbox = document.querySelector('.dropdown-scrollbox');
-const $dropdownListElement = document.querySelector('.dropdown-list-element');
 const $dropdownULElement = document.querySelector('.text-input-dropdown');
 if (!$textInput) throw new Error('$textInput query failed');
 if (!$form) throw new Error('$form query failed');
@@ -75,7 +74,7 @@ const allPokemonArray = [];
 const randomNum = Math.random();
 const randomPokeNum = (randomNum * 1000).toFixed(0);
 $textInput.addEventListener('input', () => {
-  const currentTextInput = $textInput.value;
+  const currentTextInput = $textInput.value.trim();
   while ($dropdownScrollbox.firstChild) {
     $dropdownScrollbox.removeChild($dropdownScrollbox.firstChild);
   }
@@ -98,10 +97,19 @@ $textInput.addEventListener('input', () => {
 });
 $dropdownScrollbox.addEventListener('click', (event) => {
   const eventTarget = event.target;
-  console.log(eventTarget);
-  if (eventTarget === $dropdownListElement) {
-    console.log('happy');
+  if (
+    eventTarget.matches(
+      '.dropdown-list-element, .dropdown-name, .text-input-dropdown-img',
+    )
+  ) {
+    const listElement = eventTarget.closest('.dropdown-list-element');
+    if (listElement && listElement.textContent) {
+      $textInput.value = listElement?.textContent;
+      $textInput.focus();
+    }
   }
+  const inputEvent = new Event('input', { bubbles: true });
+  $textInput.dispatchEvent(inputEvent);
 });
 $winModal.addEventListener('click', (event) => {
   const eventTarget = event.target;
@@ -432,6 +440,7 @@ function renderGuess(pokemon) {
   $divGuessRow.append($divGuessSquareHeight);
   $divGuessRow.append($divGuessSquareGen);
   $divGuessRow.append($divGuessSquareStage);
+  $scrollbox.scrollTop = 0;
   return $divGuessRow;
 }
 function renderModal() {
@@ -503,15 +512,6 @@ async function fetchAllPokemon() {
   await Promise.all(allPokemonArray);
   return allPokemonArray;
 }
-function handleKeystrokes(currentTextInput) {
-  for (let i = 0; i < allPokemonArray.length; i++) {
-    if (
-      currentTextInput ===
-      allPokemonArray[i].name.slice(0, currentTextInput.length)
-    ) {
-    }
-  }
-}
 function renderDropdown(pokemonImg, pokemonName) {
   const $dropdownListElement = document.createElement('li');
   $dropdownListElement.setAttribute('class', 'dropdown-list-element');
@@ -519,6 +519,7 @@ function renderDropdown(pokemonImg, pokemonName) {
   $dropdownImage.setAttribute('class', 'text-input-dropdown-img');
   $dropdownImage.src = pokemonImg;
   const $dropdownSpan = document.createElement('span');
+  $dropdownSpan.setAttribute('class', 'dropdown-name');
   $dropdownSpan.textContent = pokemonName;
   $dropdownListElement.append($dropdownImage);
   $dropdownListElement.append($dropdownSpan);
