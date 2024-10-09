@@ -72,7 +72,7 @@ const guessBGColor = {
 };
 const allPokemonArray = [];
 const randomNum = Math.random();
-const randomPokeNum = (randomNum * 1000).toFixed(0);
+const randomPokeNum = Number((randomNum * 1000).toFixed(0));
 $textInput.addEventListener('input', () => {
   const currentTextInput = $textInput.value.trim();
   $dropdownScrollbox.setAttribute('class', 'dropdown-scrollbox');
@@ -124,7 +124,9 @@ $winModal.addEventListener('click', (event) => {
 });
 $hintButton.addEventListener('click', (event) => {
   const eventTarget = event.target;
-  if (eventTarget === $hintButton) {
+  if (eventTarget === $hintButton && !$hintBox.matches('.hidden')) {
+    $hintBox.setAttribute('class', 'hint-box hidden');
+  } else if (eventTarget === $hintButton) {
     $hintBox.setAttribute('class', 'hint-box');
     $hintModalBackground.setAttribute('class', 'hint-modal-background');
   }

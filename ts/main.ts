@@ -169,7 +169,7 @@ interface AllPokemon {
 const allPokemonArray: AllPokemon[] = [];
 
 const randomNum = Math.random();
-const randomPokeNum = (randomNum * 1000).toFixed(0);
+const randomPokeNum = Number((randomNum * 1000).toFixed(0));
 
 $textInput.addEventListener('input', () => {
   const currentTextInput = $textInput.value.trim();
@@ -227,7 +227,9 @@ $winModal.addEventListener('click', (event: Event) => {
 
 $hintButton.addEventListener('click', (event: Event) => {
   const eventTarget = event.target;
-  if (eventTarget === $hintButton) {
+  if (eventTarget === $hintButton && !$hintBox.matches('.hidden')) {
+    $hintBox.setAttribute('class', 'hint-box hidden');
+  } else if (eventTarget === $hintButton) {
     $hintBox.setAttribute('class', 'hint-box');
     $hintModalBackground.setAttribute('class', 'hint-modal-background');
   }
