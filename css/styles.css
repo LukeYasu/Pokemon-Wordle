@@ -17,6 +17,7 @@ input {
 }
 
 .text-input {
+  background-color: white;
   border: lightgray solid 1px;
   border-radius: 5px;
   width: 200px;
@@ -259,7 +260,7 @@ button {
 }
 
 .guess-sprite {
-  background-image: url('images/red.png');
+  background-image: url('..images/red.png');
 }
 
 .green-background {
@@ -271,11 +272,11 @@ button {
 }
 
 .red-down-background {
-  background-image: url('/images/red-down.png');
+  background-image: url('../images/red-down.png');
 }
 
 .red-up-background {
-  background-image: url('/images/red-up.png');
+  background-image: url('../images/red-up.png');
 }
 
 .win-modal {

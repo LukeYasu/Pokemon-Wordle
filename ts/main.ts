@@ -173,10 +173,12 @@ const randomPokeNum = (randomNum * 1000).toFixed(0);
 
 $textInput.addEventListener('input', () => {
   const currentTextInput = $textInput.value.trim();
+  $dropdownScrollbox.setAttribute('class', 'dropdown-scrollbox');
   while ($dropdownScrollbox.firstChild) {
     $dropdownScrollbox.removeChild($dropdownScrollbox.firstChild);
   }
   if (currentTextInput === '') {
+    $dropdownScrollbox.setAttribute('class', 'hidden');
     return;
   }
   const $dropdownULElement = document.createElement('ul');
@@ -595,6 +597,7 @@ function winModal(winColor: string): void {
     fetchData(mysteryPokemon, randomPokeNum);
     $newGameButton.setAttribute('class', 'new-game-button');
     $giveUpButton.remove();
+    $textInput.disabled = true;
   }
 }
 
@@ -605,6 +608,7 @@ function getHints(): void {
   if (mysteryPokemon.isSolved === false) {
     $hint1Sprite.src = mysteryPokemon.sprites;
     $hint3Sprite.src = mysteryPokemon.sprites;
+    $hint1Sprite.style.rotate = `${Math.random() * 1000}deg`;
   }
   for (let i = 0; i < mysteryPokemon.name.length; i++) {
     if (!alphabet.test(mysteryPokemon.name[i])) {
