@@ -195,6 +195,7 @@ fetchAllPokemon();
 $form.addEventListener('submit', handleSubmit);
 async function handleSubmit(event) {
   event.preventDefault();
+  $textInput.focus();
   while ($dropdownScrollbox.firstChild) {
     $dropdownScrollbox.removeChild($dropdownScrollbox.firstChild);
   }
@@ -455,6 +456,7 @@ function winModal(winColor) {
     mysteryPokemon.isSolved = true;
     fetchData(mysteryPokemon, randomPokeNum);
     $newGameButton.setAttribute('class', 'new-game-button');
+    $giveUpButton.remove();
   }
 }
 function getHints() {

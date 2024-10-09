@@ -304,6 +304,7 @@ $form.addEventListener('submit', handleSubmit);
 
 async function handleSubmit(event: Event): Promise<void> {
   event.preventDefault();
+  $textInput.focus();
   while ($dropdownScrollbox.firstChild) {
     $dropdownScrollbox.removeChild($dropdownScrollbox.firstChild);
   }
@@ -593,6 +594,7 @@ function winModal(winColor: string): void {
     mysteryPokemon.isSolved = true;
     fetchData(mysteryPokemon, randomPokeNum);
     $newGameButton.setAttribute('class', 'new-game-button');
+    $giveUpButton.remove();
   }
 }
 
