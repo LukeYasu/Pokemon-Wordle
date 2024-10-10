@@ -30,6 +30,10 @@ const $giveUpButton = document.querySelector('.give-up-button');
 const $newGameButton = document.querySelector('.new-game-button');
 const $dropdownScrollbox = document.querySelector('.dropdown-scrollbox');
 const $dropdownULElement = document.querySelector('.text-input-dropdown');
+const $dropdownListElement = document.querySelector('.dropdown-list-element');
+const $hintPokedexBackgroundBox = document.querySelector(
+  '.hint-pokedex-background-box',
+);
 if (!$textInput) throw new Error('$textInput query failed');
 if (!$form) throw new Error('$form query failed');
 if (!$guessRow) throw new Error('$guessRow query failed');
@@ -60,6 +64,8 @@ if (!$giveUpButton) throw new Error('$giveUpButton query failed');
 if (!$newGameButton) throw new Error('$newGameButton query failed');
 if (!$dropdownScrollbox) throw new Error('$dropdownScrollbox query failed');
 if (!$dropdownULElement) throw new Error('$dropdownULElement query failed');
+if (!$hintPokedexBackgroundBox)
+  throw new Error('$hintPokedexBackgroundBox query failed');
 const guessPokemon = {};
 const guessBGColor = {
   pokemonBGColor: '',
@@ -75,22 +81,23 @@ const randomNum = Math.random();
 const randomPokeNum = Number((randomNum * 1000).toFixed(0));
 $textInput.addEventListener('input', () => {
   const currentTextInput = $textInput.value.trim();
-  $dropdownScrollbox.setAttribute('class', 'dropdown-scrollbox');
   while ($dropdownScrollbox.firstChild) {
     $dropdownScrollbox.removeChild($dropdownScrollbox.firstChild);
   }
+  if ($dropdownScrollbox.matches('.hidden')) {
+    $dropdownScrollbox.setAttribute('class', 'dropdown-scrollbox');
+  }
   if (currentTextInput === '') {
     $dropdownScrollbox.setAttribute('class', 'hidden');
-    return;
   }
   const $dropdownULElement = document.createElement('ul');
   $dropdownULElement.setAttribute('class', 'text-input-dropdown');
+  $dropdownScrollbox.append($dropdownULElement);
   for (let i = 0; i < allPokemonArray.length; i++) {
     if (
       currentTextInput ===
       allPokemonArray[i].name.slice(0, currentTextInput.length)
     ) {
-      $dropdownScrollbox.append($dropdownULElement);
       $dropdownULElement.append(
         renderDropdown(allPokemonArray[i].sprite, allPokemonArray[i].name),
       );
@@ -110,6 +117,24 @@ $dropdownScrollbox.addEventListener('click', (event) => {
       $textInput.focus();
     }
   }
+  $dropdownScrollbox.addEventListener('keydown', (event) => {
+    const focusedElement = document.activeElement;
+    console.log(focusedElement);
+    console.log(event.key);
+    if (event.key === 'Enter') {
+      if (
+        focusedElement.matches(
+          '.dropdown-list-element, .dropdown-name, .text-input-dropdown-img',
+        )
+      ) {
+        const listElement = focusedElement.closest('.dropdown-list-element');
+        if (listElement && listElement.textContent) {
+          $textInput.value = listElement?.textContent;
+          $textInput.focus();
+        }
+      }
+    }
+  });
   const inputEvent = new Event('input', { bubbles: true });
   $textInput.dispatchEvent(inputEvent);
 });
@@ -126,9 +151,17 @@ $hintButton.addEventListener('click', (event) => {
   const eventTarget = event.target;
   if (eventTarget === $hintButton && !$hintBox.matches('.hidden')) {
     $hintBox.setAttribute('class', 'hint-box hidden');
+    $hintPokedexBackgroundBox.setAttribute(
+      'class',
+      'hint-pokedex-background-box hidden',
+    );
   } else if (eventTarget === $hintButton) {
     $hintBox.setAttribute('class', 'hint-box');
     $hintModalBackground.setAttribute('class', 'hint-modal-background');
+    $hintPokedexBackgroundBox.setAttribute(
+      'class',
+      'hint-pokedex-background-box',
+    );
   }
 });
 $hintBox.addEventListener('click', (event) => {
@@ -136,6 +169,10 @@ $hintBox.addEventListener('click', (event) => {
   if (eventTarget === $hintsClose) {
     $hintBox.setAttribute('class', 'hidden hint-box');
     $hintModalBackground.setAttribute('class', 'hint-modal-background hidden');
+    $hintPokedexBackgroundBox.setAttribute(
+      'class',
+      'hint-pokedex-background-box hidden',
+    );
   }
   if (eventTarget === $hintOpenButton1 && $hintAnswer1Box.matches('.hidden')) {
     $hintAnswer1Box.setAttribute('class', 'hint-answer hint-answer1-box');
@@ -183,6 +220,9 @@ $hintBox.addEventListener('click', (event) => {
   }
   if (eventTarget === $giveUpButton) {
     $textInput.value = mysteryPokemon.name;
+    const inputEvent = new Event('input', { bubbles: true });
+    $textInput.dispatchEvent(inputEvent);
+    $textInput.focus();
   }
 });
 $newGameButton.addEventListener('click', () => {
@@ -198,7 +238,9 @@ document.addEventListener('DOMContentLoaded', () => {
 fetchAllPokemon();
 $form.addEventListener('submit', handleSubmit);
 async function handleSubmit(event) {
+  $textInput.disabled = true;
   event.preventDefault();
+  $dropdownScrollbox.setAttribute('class', 'dropdown-scrollbox hidden');
   $textInput.focus();
   while ($dropdownScrollbox.firstChild) {
     $dropdownScrollbox.removeChild($dropdownScrollbox.firstChild);
@@ -209,11 +251,13 @@ async function handleSubmit(event) {
   if (fetchSuccess === false) {
     $textInput.placeholder = ' Enter Valid Pokemon';
     $form.reset();
+    $textInput.disabled = false;
     return;
   }
   $form.reset();
   compareAnswer(mysteryPokemon, guessPokemon);
   winModal(guessBGColor.pokemonBGColor);
+  $textInput.disabled = false;
 }
 async function fetchData(pokemon, pokeId) {
   try {
@@ -254,6 +298,7 @@ async function fetchEvoChain(evoSpeciesUrl, name, pokemon) {
       throw new Error(`HTTP Error! Status: ${chainResponse}`);
     }
     const EvoChainData = await chainResponse.json();
+    console.log('EvoChainData: ', EvoChainData);
     await fetchEvoStage(EvoChainData.evolution_chain.url, name, pokemon);
   } catch (error) {
     console.error('Error: ', error);
@@ -266,28 +311,39 @@ async function fetchEvoStage(evoChainUrl, name, pokemon) {
       throw new Error(`HTTP Error! Status: ${chainResponse}`);
     }
     const speciesData = await chainResponse.json();
-    let stageNum = 1;
+    console.log('speciesData: ', speciesData);
+    console.log(name);
+    let stageNum = 0;
     if (
-      speciesData.chain.species.name &&
-      speciesData.chain.species.name === name
+      speciesData.chain.species.name ===
+      name.slice(0, speciesData.chain.species.name.length)
     ) {
       stageNum = 1;
-      pokemon.stage = stageNum;
     }
-    if (
-      speciesData.chain.evolves_to[0].species.name &&
-      speciesData.chain.evolves_to[0].species.name === name
-    ) {
-      stageNum = 2;
-      pokemon.stage = stageNum;
+    for (let i = 0; i < speciesData.chain.evolves_to.length; i++) {
+      if (
+        speciesData.chain.evolves_to[i].species.name ===
+        name.slice(0, speciesData.chain.evolves_to[i].species.name.length)
+      ) {
+        stageNum = 2;
+      }
+      for (
+        let x = 0;
+        x < speciesData.chain.evolves_to[i].evolves_to.length;
+        x++
+      ) {
+        if (
+          speciesData.chain.evolves_to[i].evolves_to[x].species.name ===
+          name.slice(
+            0,
+            speciesData.chain.evolves_to[i].evolves_to[x].species.name.length,
+          )
+        ) {
+          stageNum = 3;
+        }
+      }
     }
-    if (
-      speciesData.chain.evolves_to[0].evolves_to[0].species.name &&
-      speciesData.chain.evolves_to[0].evolves_to[0].species.name === name
-    ) {
-      stageNum = 3;
-      pokemon.stage = stageNum;
-    }
+    pokemon.stage = stageNum;
   } catch (error) {
     console.error('Error: ', error);
   }
@@ -517,12 +573,13 @@ async function fetchAllPokemon() {
   for (let i = 1; i <= 1025; i++) {
     fetchPromises.push(fetchPokemon(i));
   }
-  await Promise.all(allPokemonArray);
+  await Promise.all(fetchPromises);
   return allPokemonArray;
 }
 function renderDropdown(pokemonImg, pokemonName) {
   const $dropdownListElement = document.createElement('li');
   $dropdownListElement.setAttribute('class', 'dropdown-list-element');
+  $dropdownListElement.setAttribute('tabindex', '0');
   const $dropdownImage = document.createElement('img');
   $dropdownImage.setAttribute('class', 'text-input-dropdown-img');
   $dropdownImage.src = pokemonImg;
