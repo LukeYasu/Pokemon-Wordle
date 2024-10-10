@@ -26,11 +26,12 @@ input {
 .dropdown-scrollbox {
   position: absolute;
   overflow-y: auto;
-  max-height: 296px;
+  max-height: 275px;
   width: 200px;
-  left: calc(50% - 174px);
-  top: 260px;
+  left: calc(50% - 174.5px);
+  top: 254px;
   border: lightgrey solid 1px;
+  box-shadow: 0 0 20px 0 black;
 }
 
 .dropdown-list-element {
@@ -46,7 +47,6 @@ input {
   text-align: start;
   padding-left: 0;
   line-height: 2rem;
-  border-bottom-left-radius: 10px;
   margin: 0;
 }
 
@@ -74,6 +74,17 @@ button {
   border: #c2c2c2 solid 1px;
   border-radius: 5px;
   margin-right: 1.15rem;
+}
+
+.hint-pokedex-background {
+  display: none;
+  position: absolute;
+  width: 500px;
+  background-image: url('../images/hint-pokedex-background.png');
+  background-color: green;
+  top: calc(50% - 370px);
+  left: calc(50% + 315px);
+  filter: contrast(%50);
 }
 
 .hint-info {
@@ -127,11 +138,11 @@ button {
   width: 400px;
   height: 400px;
   background-color: #d9d9d9;
-  top: calc(50% - 200px);
-  left: calc(50% - 200px);
   border: grey solid 2px;
   border-radius: 0.5rem;
   filter: opacity(100%);
+  top: calc(50% - 200px);
+  left: calc(50% - 200px);
 }
 
 .hint-scrollbox {
@@ -204,7 +215,8 @@ button {
   background-color: #fff;
   width: 590px;
   height: 400px;
-  border-radius: 0.5rem;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
 }
 
 .attribute-header {
@@ -279,6 +291,15 @@ button {
   background-image: url('../images/red-up.png');
 }
 
+.scrollbox-footer-row {
+  display: flex;
+  justify-content: center;
+}
+
+.scrollbox-footer {
+  width: 590px;
+}
+
 .win-modal {
   background-color: #dc082d;
   border: none;
@@ -332,12 +353,16 @@ button {
 }
 
 .new-game-button {
+  position: relative;
+  bottom: 240px;
   margin: 1rem;
   background-color: #03b403;
   border: 1px solid #037b03;
   border-radius: 5px;
   font-size: 1rem;
   padding: 0.5rem;
+  width: 100px;
+  align-self: center;
 }
 
 .enter-button:hover {
@@ -375,7 +400,11 @@ dialog::backdrop {
   }
 
   .hint-box {
-    left: calc(50% + 300px);
+    left: calc(50% + 365px);
     top: calc(295px);
+  }
+
+  .hint-pokedex-background {
+    display: block;
   }
 }
