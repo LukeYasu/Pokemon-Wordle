@@ -716,7 +716,22 @@ function getHints(): void {
   $hint2.textContent = hint2answer;
 }
 
-async function fetchPokemon(pokeId: number): Promise<void> {
+function renderDropdown(pokemonImg: string, pokemonName: string): HTMLElement {
+  const $dropdownListElement = document.createElement('li');
+  $dropdownListElement.setAttribute('class', 'dropdown-list-element');
+  $dropdownListElement.setAttribute('tabindex', '0');
+  const $dropdownImage = document.createElement('img');
+  $dropdownImage.setAttribute('class', 'text-input-dropdown-img');
+  $dropdownImage.src = pokemonImg;
+  const $dropdownSpan = document.createElement('span');
+  $dropdownSpan.setAttribute('class', 'dropdown-name');
+  $dropdownSpan.textContent = pokemonName;
+  $dropdownListElement.append($dropdownImage);
+  $dropdownListElement.append($dropdownSpan);
+  return $dropdownListElement;
+}
+
+async function fetchPokemon(pokeId: number | string): Promise<void> {
   try {
     const fetchResponse = await fetch(
       `https://pokeapi.co/api/v2/pokemon/${pokeId}`,
@@ -745,17 +760,7 @@ async function fetchAllPokemon(): Promise<AllPokemon[]> {
   return allPokemonArray;
 }
 
-function renderDropdown(pokemonImg: string, pokemonName: string): HTMLElement {
-  const $dropdownListElement = document.createElement('li');
-  $dropdownListElement.setAttribute('class', 'dropdown-list-element');
-  $dropdownListElement.setAttribute('tabindex', '0');
-  const $dropdownImage = document.createElement('img');
-  $dropdownImage.setAttribute('class', 'text-input-dropdown-img');
-  $dropdownImage.src = pokemonImg;
-  const $dropdownSpan = document.createElement('span');
-  $dropdownSpan.setAttribute('class', 'dropdown-name');
-  $dropdownSpan.textContent = pokemonName;
-  $dropdownListElement.append($dropdownImage);
-  $dropdownListElement.append($dropdownSpan);
-  return $dropdownListElement;
+interface PokemonSpecies {
+  varieties: [{ pokemon: { name: string } }];
+  id: number;
 }

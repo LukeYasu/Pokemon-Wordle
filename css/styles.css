@@ -80,7 +80,7 @@ button {
   display: none;
   position: absolute;
   width: 500px;
-  background-image: url('../images/hint-pokedex-background.png');
+  background-image: url('images/hint-pokedex-background.png');
   background-color: green;
   top: calc(50% - 370px);
   left: calc(50% + 315px);

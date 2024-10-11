@@ -30,7 +30,6 @@ const $giveUpButton = document.querySelector('.give-up-button');
 const $newGameButton = document.querySelector('.new-game-button');
 const $dropdownScrollbox = document.querySelector('.dropdown-scrollbox');
 const $dropdownULElement = document.querySelector('.text-input-dropdown');
-const $dropdownListElement = document.querySelector('.dropdown-list-element');
 const $hintPokedexBackgroundBox = document.querySelector(
   '.hint-pokedex-background-box',
 );
@@ -550,6 +549,20 @@ function getHints() {
   $hint4.textContent = hint4answer;
   $hint2.textContent = hint2answer;
 }
+function renderDropdown(pokemonImg, pokemonName) {
+  const $dropdownListElement = document.createElement('li');
+  $dropdownListElement.setAttribute('class', 'dropdown-list-element');
+  $dropdownListElement.setAttribute('tabindex', '0');
+  const $dropdownImage = document.createElement('img');
+  $dropdownImage.setAttribute('class', 'text-input-dropdown-img');
+  $dropdownImage.src = pokemonImg;
+  const $dropdownSpan = document.createElement('span');
+  $dropdownSpan.setAttribute('class', 'dropdown-name');
+  $dropdownSpan.textContent = pokemonName;
+  $dropdownListElement.append($dropdownImage);
+  $dropdownListElement.append($dropdownSpan);
+  return $dropdownListElement;
+}
 async function fetchPokemon(pokeId) {
   try {
     const fetchResponse = await fetch(
@@ -575,18 +588,4 @@ async function fetchAllPokemon() {
   }
   await Promise.all(fetchPromises);
   return allPokemonArray;
-}
-function renderDropdown(pokemonImg, pokemonName) {
-  const $dropdownListElement = document.createElement('li');
-  $dropdownListElement.setAttribute('class', 'dropdown-list-element');
-  $dropdownListElement.setAttribute('tabindex', '0');
-  const $dropdownImage = document.createElement('img');
-  $dropdownImage.setAttribute('class', 'text-input-dropdown-img');
-  $dropdownImage.src = pokemonImg;
-  const $dropdownSpan = document.createElement('span');
-  $dropdownSpan.setAttribute('class', 'dropdown-name');
-  $dropdownSpan.textContent = pokemonName;
-  $dropdownListElement.append($dropdownImage);
-  $dropdownListElement.append($dropdownSpan);
-  return $dropdownListElement;
 }
