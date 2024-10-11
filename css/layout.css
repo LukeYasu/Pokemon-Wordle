@@ -98,6 +98,11 @@ main {
   flex-direction: column;
 }
 
+.scrollbox-footer-row {
+  display: flex;
+  justify-content: center;
+}
+
 .guess-square {
   display: flex;
   flex-direction: column;
@@ -109,6 +114,10 @@ main {
 
 .footer-img {
   width: 100%;
+}
+
+.dropdown-list-element {
+  display: flex;
 }
 
 dialog {

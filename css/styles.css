@@ -35,7 +35,6 @@ input {
 }
 
 .dropdown-list-element {
-  display: flex;
   border: lightgrey solid 1px;
 }
 
@@ -289,11 +288,6 @@ button {
 
 .red-up-background {
   background-image: url('../images/red-up.png');
-}
-
-.scrollbox-footer-row {
-  display: flex;
-  justify-content: center;
 }
 
 .scrollbox-footer {

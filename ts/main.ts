@@ -246,8 +246,6 @@ $dropdownScrollbox.addEventListener('click', (event: Event) => {
 
   $dropdownScrollbox.addEventListener('keydown', (event: KeyboardEvent) => {
     const focusedElement = document.activeElement as HTMLElement;
-    console.log(focusedElement);
-    console.log(event.key);
     if (event.key === 'Enter') {
       if (
         focusedElement.matches(
@@ -444,7 +442,6 @@ async function fetchEvoChain(
       throw new Error(`HTTP Error! Status: ${chainResponse}`);
     }
     const EvoChainData = (await chainResponse.json()) as PokemonSpecies;
-    console.log('EvoChainData: ', EvoChainData);
     await fetchEvoStage(EvoChainData.evolution_chain.url, name, pokemon);
   } catch (error) {
     console.error('Error: ', error);
@@ -462,8 +459,6 @@ async function fetchEvoStage(
       throw new Error(`HTTP Error! Status: ${chainResponse}`);
     }
     const speciesData = (await chainResponse.json()) as PokemonEvoChain;
-    console.log('speciesData: ', speciesData);
-    console.log(name);
     let stageNum = 0;
     if (
       speciesData.chain.species.name ===
