@@ -11,9 +11,9 @@ body {
 }
 
 input {
-  margin: 2rem 0.25rem;
+  margin: 1rem 0.25rem 2rem;
   height: 2rem;
-  z-index: 1;
+  z-index: 2;
 }
 
 .text-input {
@@ -38,6 +38,7 @@ input {
   top: 61px;
   border: lightgrey solid 1px;
   box-shadow: 0 0 20px 0 black;
+  z-index: 1;
 }
 
 .dropdown-list-element {
@@ -94,11 +95,9 @@ button {
 .hint-pokedex-background {
   display: none;
   position: relative;
-
-  /* width: 500px; */
-
-  /* top: calc(50% - 370px);
-  left: calc(50% + 315px); */
+  width: 500px;
+  top: calc(50% - 370px);
+  left: calc(50% + 315px);
 }
 
 .hint-info {
@@ -140,7 +139,7 @@ button {
   height: 100%;
   background-color: black;
   filter: opacity(50%);
-  z-index: 1;
+  z-index: 2;
 }
 
 .close-hint-button {

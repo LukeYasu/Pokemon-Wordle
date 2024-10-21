@@ -204,7 +204,7 @@ const randomNum = Math.random();
 const randomPokeNum = Number((randomNum * 1000).toFixed(0));
 
 $textInput.addEventListener('input', () => {
-  const currentTextInput = $textInput.value.trim();
+  const currentTextInput = $textInput.value.trim().toLocaleLowerCase();
   while ($dropdownScrollbox.firstChild) {
     $dropdownScrollbox.removeChild($dropdownScrollbox.firstChild);
   }
