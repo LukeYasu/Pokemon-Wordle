@@ -11,9 +11,9 @@ body {
 }
 
 input {
-  margin: 2rem 0.25rem;
+  margin: 1rem 0.25rem 2rem;
   height: 2rem;
-  z-index: 1;
+  z-index: 2;
 }
 
 .text-input {
@@ -21,17 +21,24 @@ input {
   border: lightgray solid 1px;
   border-radius: 5px;
   width: 200px;
+  margin-left: 1.15rem;
+}
+
+.dropdown-scrollbox-reference {
+  height: 0;
+  width: 0;
 }
 
 .dropdown-scrollbox {
-  position: absolute;
+  position: relative;
   overflow-y: auto;
   max-height: 275px;
   width: 200px;
-  left: calc(50% - 174.5px);
-  top: 254px;
+  right: 204px;
+  top: 45px;
   border: lightgrey solid 1px;
   box-shadow: 0 0 20px 0 black;
+  z-index: 1;
 }
 
 .dropdown-list-element {
@@ -66,6 +73,11 @@ button {
   border-radius: 5px;
 }
 
+.hint-reference {
+  height: 0;
+  width: 0;
+}
+
 .hint-button {
   height: 2rem;
   width: 60px;
@@ -75,15 +87,17 @@ button {
   margin-right: 1.15rem;
 }
 
+.hint-background-reference {
+  height: 0;
+  left: 0;
+}
+
 .hint-pokedex-background {
   display: none;
-  position: absolute;
+  position: relative;
   width: 500px;
-  background-image: url('images/hint-pokedex-background.png');
-  background-color: green;
   top: calc(50% - 370px);
   left: calc(50% + 315px);
-  filter: contrast(%50);
 }
 
 .hint-info {
@@ -125,7 +139,7 @@ button {
   height: 100%;
   background-color: black;
   filter: opacity(50%);
-  z-index: 1;
+  z-index: 2;
 }
 
 .close-hint-button {
@@ -212,18 +226,17 @@ button {
 
 .game-box {
   background-color: #fff;
-  width: 590px;
+  width: 100%;
   height: 400px;
   border-top-left-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
 }
 
 .attribute-header {
-  width: 530px;
+  width: 93%;
   background-color: #d9d9d9;
   border-radius: 0.25rem;
-  margin: 1rem;
-  height: 33px;
+  margin: 1rem 0;
 }
 
 .attribute-header div {
@@ -236,17 +249,19 @@ button {
 }
 
 .scrollbox {
-  width: 560px;
+  width: 100%;
   height: 80%;
+  padding: 0 1rem;
   overflow-y: scroll;
 }
 
 .guess-row {
   margin: 5px 0;
+  flex-wrap: wrap;
 }
 
 .guess-square {
-  width: 80px;
+  width: 78px;
   text-align: center;
   line-height: 35px;
   border: #d9d9d9 solid 5px;
@@ -291,7 +306,8 @@ button {
 }
 
 .scrollbox-footer {
-  width: 590px;
+  width: 100%;
+  padding: 0 1.5rem;
 }
 
 .win-modal {
@@ -388,17 +404,25 @@ dialog::backdrop {
   cursor: pointer;
 }
 
+@media screen and (width >= 640px) {
+  .container {
+    width: 640px;
+  }
+}
+
 @media screen and (width >= 1200px) {
   .hint-modal-background {
     display: none;
   }
 
   .hint-box {
-    left: calc(50% + 365px);
-    top: calc(295px);
+    position: relative;
+    top: 63px;
+    left: 0;
   }
 
   .hint-pokedex-background {
-    display: block;
+    display: none;
+    position: relative;
   }
 }

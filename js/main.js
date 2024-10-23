@@ -79,7 +79,7 @@ const allPokemonArray = [];
 const randomNum = Math.random();
 const randomPokeNum = Number((randomNum * 1000).toFixed(0));
 $textInput.addEventListener('input', () => {
-  const currentTextInput = $textInput.value.trim();
+  const currentTextInput = $textInput.value.trim().toLocaleLowerCase();
   while ($dropdownScrollbox.firstChild) {
     $dropdownScrollbox.removeChild($dropdownScrollbox.firstChild);
   }
@@ -118,8 +118,6 @@ $dropdownScrollbox.addEventListener('click', (event) => {
   }
   $dropdownScrollbox.addEventListener('keydown', (event) => {
     const focusedElement = document.activeElement;
-    console.log(focusedElement);
-    console.log(event.key);
     if (event.key === 'Enter') {
       if (
         focusedElement.matches(
@@ -297,7 +295,6 @@ async function fetchEvoChain(evoSpeciesUrl, name, pokemon) {
       throw new Error(`HTTP Error! Status: ${chainResponse}`);
     }
     const EvoChainData = await chainResponse.json();
-    console.log('EvoChainData: ', EvoChainData);
     await fetchEvoStage(EvoChainData.evolution_chain.url, name, pokemon);
   } catch (error) {
     console.error('Error: ', error);
@@ -310,8 +307,6 @@ async function fetchEvoStage(evoChainUrl, name, pokemon) {
       throw new Error(`HTTP Error! Status: ${chainResponse}`);
     }
     const speciesData = await chainResponse.json();
-    console.log('speciesData: ', speciesData);
-    console.log(name);
     let stageNum = 0;
     if (
       speciesData.chain.species.name ===

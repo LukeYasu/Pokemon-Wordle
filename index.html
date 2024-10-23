@@ -29,13 +29,68 @@
           <div class="col-full input-text-button">
             <form class="col-two-thirds form-content">
               <input class="text-input" type="text" required />
-              <div class="dropdown-scrollbox hidden">
-                <ul class="text-input-dropdown"></ul>
+              <div class="dropdown-scrollbox-reference">
+                <div class="dropdown-scrollbox hidden">
+                  <ul class="text-input-dropdown"></ul>
+                </div>
               </div>
               <input class="enter-button" type="submit" value="Enter" />
             </form>
             <div class="hint-button-container">
               <button class="hint-button">Hint</button>
+
+              <div class="hint-reference">
+                <div class="hint-box hidden">
+                  <div class="row close-hint-button">
+                    <div class="hint-info">
+                      <span>?</span>
+                      <div class="hint-info-text">
+                        Hint 1: (hard) Blurry silhouette of mystery Pokémon
+                        sprite rotated to a random amount<br />Hint 2: (medium)
+                        first and last character of the mystery Pokémon name<br />Hint
+                        3: (novice) Blurry colored sprite of mystery Pokémon<br />Hint
+                        4: (easy) every other character of mystery Pokémon
+                      </div>
+                    </div>
+                    <button class="hints-close">X</button>
+                  </div>
+                  <div class="hint-scrollbox">
+                    <div class="hint-title">
+                      <div class="title-box">Hint 1</div>
+                      <button class="hint-open-button1">V</button>
+                    </div>
+                    <div class="hint-answer1-box hint-answer hidden">
+                      <img
+                        class="hint-sprite-1"
+                        src=""
+                        alt="blurry monochrome pokemon sprite" />
+                    </div>
+                    <div class="hint-title">
+                      <div class="title-box">Hint 2</div>
+                      <button class="hint-open-button2">V</button>
+                    </div>
+                    <div
+                      class="hint-answer2-box hint-answer hint2 hidden"></div>
+                    <div class="hint-title">
+                      <div class="title-box">Hint 3</div>
+                      <button class="hint-open-button3">V</button>
+                    </div>
+                    <div class="hint-answer3-box hint-answer hidden">
+                      <img
+                        class="hint-sprite-3"
+                        src=""
+                        alt="blurry colored pokemon sprite" />
+                    </div>
+                    <div class="hint-title">
+                      <div class="title-box">Hint 4</div>
+                      <button class="hint-open-button4">V</button>
+                    </div>
+                    <div
+                      class="hint-answer hint-answer4-box hint4 hidden"></div>
+                    <button class="give-up-button">Give Up</button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -47,7 +102,7 @@
                 <div class="col-one-sixth">Types</div>
                 <div class="col-one-sixth">Weight</div>
                 <div class="col-one-sixth">Height</div>
-                <div class="col-one-sixth">Generation</div>
+                <div class="col-one-sixth">Region</div>
                 <div class="col-one-sixth">Evo Stage</div>
               </div>
               <div class="scrollbox">
@@ -76,60 +131,14 @@
           </div>
           <button class="modal-play-again button">Play Again</button>
         </dialog>
+        <div class="hint-background-reference">
+          <div class="hint-pokedex-background-box hidden">
+            <img
+              src="images/hint-pokedex-background.png"
+              class="hint-pokedex-background" />
+          </div>
+        </div>
         <div class="hint-modal-background hidden"></div>
-        <div class="hint-pokedex-background-box hidden">
-          <img
-            src="images/hint-pokedex-background.png"
-            class="hint-pokedex-background" />
-        </div>
-        <div class="hint-box hidden">
-          <div class="row close-hint-button">
-            <div class="hint-info">
-              <span>?</span>
-              <div class="hint-info-text">
-                Hint 1: (hard) Blurry silhouette of mystery Pokémon sprite
-                rotated to a random amount<br />Hint 2: (medium) first and last
-                character of the mystery Pokémon name<br />Hint 3: (novice)
-                Blurry colored sprite of mystery Pokémon<br />Hint 4: (easy)
-                every other character of mystery Pokémon
-              </div>
-            </div>
-            <button class="hints-close">X</button>
-          </div>
-          <div class="hint-scrollbox">
-            <div class="hint-title">
-              <div class="title-box">Hint 1</div>
-              <button class="hint-open-button1">V</button>
-            </div>
-            <div class="hint-answer1-box hint-answer hidden">
-              <img
-                class="hint-sprite-1"
-                src=""
-                alt="blurry monochrome pokemon sprite" />
-            </div>
-            <div class="hint-title">
-              <div class="title-box">Hint 2</div>
-              <button class="hint-open-button2">V</button>
-            </div>
-            <div class="hint-answer2-box hint-answer hint2 hidden"></div>
-            <div class="hint-title">
-              <div class="title-box">Hint 3</div>
-              <button class="hint-open-button3">V</button>
-            </div>
-            <div class="hint-answer3-box hint-answer hidden">
-              <img
-                class="hint-sprite-3"
-                src=""
-                alt="blurry colored pokemon sprite" />
-            </div>
-            <div class="hint-title">
-              <div class="title-box">Hint 4</div>
-              <button class="hint-open-button4">V</button>
-            </div>
-            <div class="hint-answer hint-answer4-box hint4 hidden"></div>
-            <button class="give-up-button">Give Up</button>
-          </div>
-        </div>
       </div>
     </main>
     <script src="js/data.js"></script>
