@@ -6,10 +6,7 @@ A guessing game that lets you guess the mystery pokemon and displays which attri
 
 <img width="1470" alt="Screenshot 2024-12-02 at 12 25 36 PM" src="https://github.com/user-attachments/assets/1d950939-b679-4a79-8be2-d00b7697a56f">
 
-## Utilized Technologies
-- TypeScript
-- CSS
-- HTML
+Utilized Technologies: TypeScript, CSS, HTML
 
 ## Features
 - User can play a daily pokemon guessing game
