@@ -11,7 +11,7 @@ A guessing game that lets you guess the mystery pokemon and displays which attri
 - CSS
 - HTML
 
-
+## Features
 - User can play a daily pokemon guessing game
 - User can view attributes about the pokemon being guessed
 - User can view hints to help with guessing(blurry image, blurry silhouette, pokemon audio)
